@@ -1,0 +1,6 @@
+<md-select [placeholder]="placeholder" [required]="required" [(ngModel)]="value" [disabled]="disabled">
+  <md-option *ngFor="let option of selectableOptions" [value]="getValue(option)">
+    {{displayText(option)}}
+    <span *ngIf="canClear&&getValue(option)==value" class="clear" (click)="clear($event)"><i class="fa fa-remove"></i></span>
+  </md-option>
+</md-select>

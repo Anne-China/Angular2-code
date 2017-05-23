@@ -1,0 +1,25 @@
+<box name="公告管理" sub-name="Notice Message">
+    <box-toolbar>
+        <form autocomplete="off" novalidate>
+            <md-input-container>
+                <input mdInput placeholder="请输入">
+            </md-input-container>
+            <button class="btn" color="primary" md-raised-button>
+                <i class="fa fa-search"></i> 搜索
+            </button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="userid" #messageDataGrid="dataGrid" [pager]="pagerForMessageDataGrid" pagable striped>
+        <datagrid-column-group>
+            <datagrid-column name="内容" prop="Content"></datagrid-column>
+            <datagrid-column name="标题" prop="Title"></datagrid-column>
+            <datagrid-column name="是否短信通知" prop="TextMessage" width="100"></datagrid-column>
+            <datagrid-column name="是否推送" prop="Pull" width="80"></datagrid-column>
+            <datagrid-column name="状态" prop="State"></datagrid-column>
+            <datagrid-column name="发布时间" prop="PublishTime"></datagrid-column>
+            <datagrid-column name="发布位置" prop="PublishLocation"></datagrid-column>
+            <datagrid-column name="发布人" prop="PublishPeople" freeze="right"></datagrid-column>
+        </datagrid-column-group>
+    </datagrid>
+    <pager dropdown-dir="up" #pagerForMessageDataGrid="pager"></pager>
+</box>

@@ -1,0 +1,112 @@
+@import '../../styles/variables';
+:host {
+    display: flex;
+    flex-flow: row nowrap;
+    min-height: 35px;
+    align-items: stretch;
+    position: relative;
+    border-bottom: solid 1px map-get($border-color, common);
+    &>div {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        &.fill {
+            flex-grow: 1;
+        }
+        &.freeze-left {
+            border-right: solid 2px map-get($border-color, common);
+            position: absolute;
+            left: 0;
+            height: 100%;
+            background-color: map-get($bg-color, content);
+            &>div:last-child {
+                border-right: none;
+            }
+        }
+        &.freeze-right {
+            border-left: solid 2px map-get($border-color, common);
+            position: absolute;
+            right: 0;
+            height: 100%;
+            background-color: map-get($bg-color, content);
+        }
+        &>div {
+            padding: 5px;
+            border-right: solid 1px map-get($border-color, common);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            &.fill {
+                flex-grow: 1;
+            }
+        }
+        &:last-child {
+            &>div:last-child {
+                border-right: none;
+            }
+        }
+    }
+}
+
+.datagrid-row-index-cell {
+    justify-content: flex-end;
+    background: $datagrid-row-index-cell-bg;
+    color: map-get($font-color, common);
+}
+
+:host-context(.striped) {
+    &:nth-of-type(even) {
+        background-color: map-get($bg-color, hover);
+        .freeze-right,
+        .freeze-left {
+            background-color: map-get($bg-color, hover);
+        }
+    }
+}
+
+:host-context(:not(.striped)) {
+    &:hover {
+        background-color: map-get($bg-color, hover);
+        .freeze-right,
+        .freeze-left {
+            background-color: map-get($bg-color, hover);
+        }
+    }
+}
+
+:host-context(.striped) :host(.selected),
+:host(.selected) {
+    background-color: map-get($selected-color, bg);
+    color: map-get($selected-color, font);
+    &:nth-of-type(even),
+    &:nth-of-type(even) .freeze-right,
+    &:nth-of-type(even) .freeze-left,
+    .freeze-right,
+    .freeze-left {
+        background-color: map-get($selected-color, bg);
+        color: map-get($selected-color, font);
+    }
+    &:hover {
+        background-color: map-get($selected-color, bg);
+        color: map-get($selected-color, font);
+        .freeze-right,
+        .freeze-left {
+            background-color: map-get($selected-color, bg);
+            color: map-get($selected-color, font);
+        }
+    }
+}
+
+.datagrid-row-detail-cell {
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    i {
+        animation: rotate-90-0 0.2s;
+        &.expanded {
+            transform: rotate(90deg);
+            animation: rotate-0-90 0.2s;
+        }
+    }
+}

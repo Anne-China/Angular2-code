@@ -1,0 +1,47 @@
+
+<box name="广告管理" sub-name="Advertisement">
+    <box-toolbar>
+        <form autocomplete="off" novalidate>
+            <autocomplete placeholder="所属品牌" width="250" [data-loader]="brandsLoader" display-prop="Name" value-prop="ID" name="queryBrandId" [(ngModel)]="query.BrandId"></autocomplete>
+            <autocomplete placeholder="发布位置" width="250" [data-loader]="advertiseLocationLoader" display-prop="Location" value-prop="ID" name="queryLocation" [(ngModel)]="query.Location"></autocomplete>
+            <button type="button" class="btn" color="primary" md-raised-button (click)="queryData()">
+                <i class="fa fa-search"></i> 搜索
+            </button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="userid" #advertiseDataGrid="dataGrid" [pager]="pagerForAdvertiseDataGrid" [data-loader]="advertiseLoader" [filter]="getFilter" pagable striped server-paging server-filting server-sorting>
+        <datagrid-column-group>
+            <datagrid-column prop="Number" name="排序号" width="100" align="center"></datagrid-column>
+            <datagrid-column name="广告图片" prop="Pictures" width="200" align="center">
+                <ng-template datagrid-cell let-value="value">
+                    <img class="brand-pic" *ngFor="let p of value" [attr.src]="p" />
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column prop="BrandName" name="所属品牌" fill align="center"></datagrid-column>
+            <datagrid-column prop="Name" name="商家名称" fill align="center"></datagrid-column>
+            <datagrid-column prop="Location" name="发布位置" align="center">
+            </datagrid-column>
+            <datagrid-column name="操作" freeze="right" width="250" align="center">
+                <ng-template datagrid-column-header let-data="data" let-colum="column">
+                    <button class="btn btn-xs" color="primary" md-raised-button (click)="addAdvertise()">
+                        <i class="fa fa-plus"></i> 新增广告
+                    </button>
+                    <button class="btn btn-xs" color="accent" md-raised-button (click)="delAdvertise()">
+                        <i class="fa fa-trash"></i> 删除广告
+                    </button>
+                </ng-template>
+                <ng-template datagrid-cell let-row="row">
+                    <button class="btn btn-xs" color="primary" md-raised-button (click)="seePhoto(row.data)">
+                        <i class="fa fa-eye"></i> 查看
+                    </button>
+                    <button class="btn btn-xs" color="accent" md-raised-button>
+                        <i class="fa fa-pencil"></i> 编辑
+                    </button>
+                </ng-template>
+            </datagrid-column>
+        </datagrid-column-group>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForAdvertiseDataGrid="pager"></pager>
+    </box-footer>
+</box>

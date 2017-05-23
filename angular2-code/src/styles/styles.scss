@@ -1,0 +1,245 @@
+@import 'theme';
+@import 'variables';
+@import 'forms';
+@import 'animateions';
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  align-items: center;
+  background-color: map-get($bg-color, body);
+  color: map-get($font-color, common);
+  font-family: $font-family !important;
+  font-size: map-get($font-size, common);
+  height: 100%;
+  margin: 0;
+  min-height: $body-min-height;
+  min-width: $body-min-width;
+  overflow: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.mat-button,
+.mat-fab,
+.mat-icon-button,
+.mat-mini-fab,
+.mat-raised-button {
+  font-family: $font-family !important;
+}
+
+layout {
+  align-content: stretch;
+  display: flex;
+  flex-flow: row nowrap;
+  flex-grow: 1;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+ng-component {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+router-outlet {
+  display: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  color: map-get($link-color, common);
+  text-decoration: none;
+}
+
+a:hover {
+  color: map-get($link-color, hover);
+}
+
+.text-success {
+  color: map-get($font-color, success);
+}
+
+.text-alert,
+.text-failed {
+  color: map-get($font-color, error);
+}
+
+.text-note {
+  color: map-get($font-color, note);
+}
+
+.text-primary {
+  color: map-get($mat-blue, 500);
+}
+
+.text-disabled {
+  color: map-get($font-color, disabled);
+}
+
+.text-warnning {
+  color: map-get($font-color, warnning);
+}
+
+datagrid-row.selected .text-success,
+datagrid-row.selected .text-alert,
+datagrid-row.selected .text-failed,
+datagrid-row.selected .text-note,
+datagrid-row.selected .text-primary,
+datagrid-row.selected .text-disabled {
+  color: map-get($font-color, selected);
+}
+
+.btn {
+  height: 30px;
+  border-radius: 16px !important;
+  line-height: 30px !important;
+  padding: 0 4px;
+  min-width: 60px !important;
+  border: none;
+  outline: none;
+  font-family: $font-family;
+  font-size: map-get($font-size, common);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.btn-sm {
+  height: 30px;
+  border-radius: 16px !important;
+  line-height: 30px !important;
+  padding: 0 4px;
+  min-width: 60px !important;
+}
+
+.btn-xs {
+  height: 24px;
+  border-radius: 12px !important;
+  line-height: 24px !important;
+  padding: 0 4px;
+  min-width: 40px !important;
+}
+
+.mat-button-wrapper .fa {
+  position: relative;
+  top: -1px;
+}
+
+.mat-dialog-container {
+  max-width: 100vw !important;
+  md-dialog-content {
+    padding: 24px !important;
+  }
+  .mat-dialog-actions {
+    justify-content: flex-end;
+    button {
+      margin-left: 10px;
+    }
+  }
+}
+
+ajax-ex-html-dialog {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+  md-dialog-content {
+    max-height: 100vh !important;
+    flex-grow: 1;
+    border-top: 1px solid map-get($border-color, common);
+    border-bottom: 1px solid map-get($border-color, common);
+    padding: 0 !important;
+    display: flex !important;
+    flex-flow: column nowrap;
+    iframe {
+      flex-grow: 1;
+    }
+  }
+}
+
+.chip {
+  background-color: map-get($mat-blue, 500);
+  color: map-get(map-get($mat-blue, contrast), 500);
+  min-height: 32px;
+  border-radius: 24px;
+  padding: 0 12px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  position: relative;
+  &:last-child {
+    margin: 0;
+  }
+  &>.remove {
+    background-color: map-get($mat-red, 500);
+    color: map-get(map-get($mat-red, contrast), 500);
+    height: 16px;
+    width: 16px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    right: -2px;
+    top: -2px;
+    position: absolute;
+    border-radius: 8px;
+    cursor: pointer;
+    display: none;
+  }
+  &:hover>.remove {
+    display: flex;
+  }
+}
+
+.chip.ver {
+  flex-flow: column nowrap;
+}
+
+.spacer {
+  flex-grow: 9;
+}
+
+.bottom-expander {
+  background: url('/assets/img/icons.png') no-repeat 0 -111px;
+  height: 26px;
+  width: 114px;
+  cursor: pointer;
+  z-index: 99;
+  &.expanded {
+    background-position: 0 -146px;
+  }
+  &.roateX180 {
+    background-position: -116px -111px;
+    transform: rotateX(180deg);
+    &.expanded {
+      background-position: -116px -146px;
+    }
+  }
+}
+
+datagrid-row-detail {
+  background-color: map-get($mat-blue, 100);
+  label {
+    background-color: map-get($mat-blue, 200);
+  }
+}
+
+.detail-label {
+  background-color: map-get($mat-blue, 200);
+}
+
+sup {
+  font-size: rem(1.2);
+  transform: scale(0.7);
+  display: inline-block;
+  line-height: normal;
+}

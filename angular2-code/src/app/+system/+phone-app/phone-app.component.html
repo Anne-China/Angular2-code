@@ -1,0 +1,32 @@
+<box name="App管理" sub-name="App Management">
+    <box-toolbar>
+        <form autocomplete="off" novalidate>
+            <md-input-container>
+                <input mdInput placeholder="版本号" name="queryVersionNumber" [(ngModel)]="query.VersionNumber">
+            </md-input-container>
+            <dropdown name="queryTypeId" placeholder="终端类型" [(ngModel)]="query.TypeId" [options]="dicts.Type" width="250"></dropdown>
+            <button class="btn" color="primary" md-raised-button (click)="queryData()">
+                <i class="fa fa-search"></i> 搜索
+            </button>
+            <button class="btn" color="primary" md-raised-button (click)="addVersion()">
+                <i class="fa fa-plus"></i> 发布版本
+            </button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="userid" #appDataGrid="dataGrid" [data-loader]="phoneAppLoader" [pager]="pagerForAppDataGrid" [filter]="getFilter" pagable striped server-filting server-paging server-sorting>
+        <datagrid-column-group>
+            <datagrid-column prop="VersionNumber" name="版本号" width="200"></datagrid-column>
+            <datagrid-column prop="Type" name="终端类型">
+                <ng-template datagrid-cell let-data="data" let-value="value">
+                    <span class="text-success" [class.text-success]="data.TypeId==1 || data.TypeId==2" [class.text-primary]="data.TypeId==3 || data.TypeId==4" [class.text-note]="data.TypeId==5 || data.TypeId==6">{{value}}</span>
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column prop="UpdatePath" name="更新地址" width="300"></datagrid-column>
+            <datagrid-column prop="Time" name="发布时间" width="200" align="center"></datagrid-column>
+            <datagrid-column prop="UpdateNumber" name="更新量" width="100" fill></datagrid-column>
+        </datagrid-column-group>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForAppDataGrid="pager"></pager>
+    </box-footer>
+</box>

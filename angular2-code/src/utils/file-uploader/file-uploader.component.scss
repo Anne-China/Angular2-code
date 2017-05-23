@@ -1,0 +1,79 @@
+@import '../../styles/variables';
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+    &>div {
+        flex-shrink: 0;
+    }
+    &>div:first-child {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        &>div:first-child {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            margin-right: 10px;
+            .drop-zone {
+                margin-right: 5px;
+                flex-grow: 1;
+                height: 36px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: map-get($bg-color, input);
+                border: 3px dotted map-get($border-color, common);
+                &.drop-over {
+                    background-color: map-get($bg-color, hover);
+                    border-color: map-get($border-color, primary);
+                }
+            }
+            .btn-zone {
+                flex-shrink: 0;
+                a {
+                    height: 36px;
+                    border: 1px solid map-get($border-color, common) !important;
+                }
+            }
+        }
+    }
+}
+
+input[type='file'] {
+    display: none;
+}
+
+.file-items {
+    &>div {
+        margin-top: 10px;
+        &>div {
+            padding-bottom: 5px;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            .name {
+                flex-grow: 1;
+                span {
+                    font-style: italic;
+                }
+            }
+            .btns,
+            .size {
+                flex-shrink: 0;
+            }
+            .size {
+                padding-left: 10px;
+            }
+            .percent {
+                width: 70px;
+                flex-shrink: 0;
+                text-align: right;
+                padding: 0 5px 0 10px;
+            }
+            .btns {
+                width: 130px;
+                text-align: right;
+            }
+        }
+    }
+}

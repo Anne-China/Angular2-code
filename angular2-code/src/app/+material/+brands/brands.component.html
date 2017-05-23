@@ -1,0 +1,50 @@
+<box name="品牌列表" sub-name="Material brands">
+    <box-toolbar>
+        <form autocomplete="off" novalidate>
+            <md-input-container>
+                <input mdInput name="queryName" [(ngModel)]="query.Name" placeholder="品牌名称">
+            </md-input-container>
+            <autocomplete name="queryProvider" placeholder="所属厂商" width="250" [(ngModel)]="query.ProviderID" display-prop="Name" value-prop="ID" [data-loader]="providersLoader"></autocomplete>
+            <button type="button" class="btn" color="primary" md-raised-button (click)="queryData()">
+                <i class="fa fa-search"></i> 查询
+            </button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="ID" #brandsDataGrid="dataGrid" [pager]="pagerForBrandsDataGrid" [data-loader]="brandsLoader" [filter]="getFilter"
+        pagable striped server-paging server-sorting server-filting row-index-column>
+        <datagrid-column-group>
+            <datagrid-column name="品牌图片" prop="Logo" width="200" align="center">
+                <ng-template datagrid-cell let-value="value">
+                    <img class="brand-pic" *ngIf="value!=null" [attr.src]="value" />
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column name="品牌名称" prop="Name" width="200" header-align="left"></datagrid-column>
+            <datagrid-column name="推荐权重" prop="RecommandWeight" width="80" align="center"></datagrid-column>
+            <datagrid-column name="热销权重" prop="SellWellWeight" width="80" align="center"></datagrid-column>
+            <datagrid-column name="所属厂商" prop="Provider.Name" header-align="left" fill></datagrid-column>
+            <datagrid-column name="品牌档次" prop="Tag" width="80" fill>
+                <ng-template datagrid-cell let-data="data" let-value="value">
+                    <span class="text-success" [class.text-failed]="data.TagId==401" [class.text-success]="data.TagId==402" [class.text-note]="data.TagId==403" [class.text-primary]="data.TagId==404">{{value}}</span>
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column name="操作" width="165" header-align="right" align="right" freeze="right">
+                <ng-template datagrid-column-header let-column="column">
+                    <button type="button" class="btn btn-xs" md-raised-button color="primary" (click)="addBrand()">
+                        <i class="fa fa-plus"></i> 新增品牌
+                    </button>
+                </ng-template>
+                <ng-template datagrid-cell let-row="row">
+                    <button type="button" class="btn btn-xs" md-raised-button color="primary" (click)="editBrand(row.data)">
+                        <i class="fa fa-pencil"></i> 编辑
+                    </button>
+                    <button type="button" class="btn btn-xs" color="warn" md-raised-button (click)="delBrand(row.data)">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </ng-template>
+            </datagrid-column>
+        </datagrid-column-group>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForBrandsDataGrid="pager"></pager>
+    </box-footer>
+</box>

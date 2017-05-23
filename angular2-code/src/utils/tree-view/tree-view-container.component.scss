@@ -1,0 +1,36 @@
+@import '../../styles/variables';
+:host {
+    display: block;
+    overflow: auto;
+}
+
+.tree-node {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    min-height: 36px;
+    padding-left: 10px;
+    cursor: pointer;
+    &>i {
+        margin-right: 10px;
+        flex-shrink: 0;
+        position: relative;
+        top: 1px;
+    }
+    &>span {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        min-height: 36px;
+        flex-grow: 1;
+    }
+    &:nth-of-type(even),
+    &:hover {
+        background-color: map-get($bg-color, hover);
+    }
+    &.selected {
+        background-color: map-get($selected-color, bg);
+        color: map-get($selected-color, font);
+        cursor: default;
+    }
+}

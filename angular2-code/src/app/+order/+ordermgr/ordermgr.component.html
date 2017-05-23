@@ -1,0 +1,36 @@
+<box name="订单管理" sub-name="Order Management">
+    <box-toolbar>
+        <form autocomplete="off" novalidate>
+            <md-input-container>
+                <input mdInput placeholder="姓名" name="queryName" [(ngModel)]="query.Name">
+            </md-input-container>
+            <button class="btn" md-raised-button color="primary" (click)="queryData()">
+                <i class="fa fa-search"></i> 搜索
+            </button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="userid" [data-loader]="orderLoader" #orderDataGrid="dataGrid"  [filter]="getFilter" [pager]="pagerForOrderDataGrid" pagable striped server-filting server-paging server-sorting>
+        <datagrid-column-group>
+            <datagrid-column prop="OrderId" name="订单编号" align="center" freeze="left"></datagrid-column>
+            <datagrid-column prop="MxcomeId" name="客户编号" width="120" align="center"></datagrid-column>
+            <datagrid-column prop="Name" name="客户姓名" width="120" align="center"></datagrid-column>
+            <datagrid-column prop="Status" name="状态" width="120" align="center"></datagrid-column>
+            <datagrid-column prop="PlanName" name="套餐类型" width="120" align="center"></datagrid-column>
+            <datagrid-column prop="AdvancePay" name="预付款" width="140" align="center"></datagrid-column>
+            <datagrid-column prop="PayWay" name="支付方式" width="100" align="center">
+                <ng-template datagrid-cell let-data="data" let-value="value">
+                    <span class="text-success" [class.text-failed]="data.PayWayId==0" [class.text-success]="data.PayWayId==1" [class.text-note]="data.PayWayId==2">{{value}}</span>
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column prop="CreateTime" name="创建时间" align="center" fill></datagrid-column>
+            <datagrid-column name="操作" width="120" freeze="right" align="center">
+                <ng-template datagrid-cell let-data="data">
+                    <button class="btn btn-xs" color="primary" md-raised-button (click)="showProjectDetail(data)">查看工程详情</button>
+                </ng-template>
+            </datagrid-column>
+        </datagrid-column-group>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForOrderDataGrid="pager"></pager>
+    </box-footer>
+</box>

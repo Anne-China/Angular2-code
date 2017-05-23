@@ -1,0 +1,14 @@
+<tree-view>
+    <ng-template tree-view-node let-node="node">
+        <div class="tree-node" *ngIf="isExpanded(node)" [class.selected]="node==selected" [style.marginLeft.px]="(node.$$level-1)*36">
+            <i class="fa" [class.fa-plus-square]="!node.$$expanded&&(!node.$$dataLoaded || node.$$children?.length>0)" [class.fa-minus-square]="node.$$expanded&&(!node.$$dataLoaded || node.$$children?.length>0)"
+                [class.fa-circle-o]="node.$$dataLoaded && node.$$children?.length==0" (click)="node.toggleExpand()"></i>
+            <span (click)="select(node)" (dblclick)="node.toggleExpand()">{{displayText(node)}}</span>
+        </div>
+        <div [style.marginLeft.px]="node.$$level*36" class="tree-node" *ngIf="isExpanded(node)&&node.$$expanded&&!node.$$dataLoaded"><i class="fa fa-circle-o-notch fa-spin"></i> {{loadingText}}</div>
+        <ng-template ngFor let-child [ngForOf]="node.$$children" [ngForTrackBy]="trackingFn">
+            <ng-template [ngTemplateOutlet]="node.nodeTemplate" [ngTemplateOutletContext]="{ node: child }">
+            </ng-template>
+        </ng-template>
+    </ng-template>
+</tree-view>

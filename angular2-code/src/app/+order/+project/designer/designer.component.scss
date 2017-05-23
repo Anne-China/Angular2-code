@@ -1,0 +1,65 @@
+@import '../../../../styles/variables';
+form {
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  &>button {
+    margin-left: 10px;
+  }
+}
+
+datagrid {
+  min-height: 300px;
+}
+
+pager {
+  float: right;
+  margin-top: 10px;
+}
+
+.detail {
+  display: flex;
+  flex-flow: row nowrap;
+  &>div {
+    flex-grow: 1;
+    margin-left: 10px;
+    &>div {
+      line-height: 35px;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      margin-bottom: 1px;
+      &>label {
+        padding: 0 5px;
+        margin-right: 5px;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+      md-chip {
+        outline: none;
+        margin-right: 5px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+  &>div.avatar {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 0;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+    &.none {
+      border: 1px solid map-get($border-color, common);
+      padding: 10px;
+    }
+    img {
+      max-height: 143px;
+      max-width: 143px;
+    }
+  }
+}

@@ -1,0 +1,95 @@
+@import '../../../styles/variables';
+:host {
+  flex-grow: 1;
+  display: flex;
+}
+
+box {
+  flex-grow: 1;
+  datagrid {
+    margin: -1px;
+    flex-grow: 1;
+  }
+  pager {
+    float: right;
+  }
+  box-toolbar {
+    form {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      &>input,
+      &>dropdown,
+      &>md-input-container,
+      &>button {
+        margin-right: 10px;
+      }
+      &>:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+button {
+  i.fa-toggle-right {
+    animation: rotate-90-0 0.2s;
+    &.expanded {
+      transform: rotate(90deg);
+      animation: rotate-0-90 0.2s;
+    }
+  }
+}
+
+img.avatar {
+  max-width: 50px;
+  max-height: 50px;
+  border: none;
+  outline: none;
+}
+
+.detail {
+  display: flex;
+  flex-flow: row nowrap;
+  &>div {
+    flex-grow: 1;
+    margin-left: 10px;
+    &>div {
+      line-height: 35px;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      margin-bottom: 1px;
+      &>label {
+        padding: 0 5px;
+        margin-right: 5px;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+      md-chip {
+        outline: none;
+        margin-right: 5px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+  &>div.avatar {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 0;
+    justify-content: center;
+    align-items: center;
+    width: 143px;
+    margin-left: 0;
+    &.none {
+      border: 1px solid map-get($border-color, common);
+    }
+    img {
+      max-height: 143px;
+      max-width: 143px;
+    }
+  }
+}

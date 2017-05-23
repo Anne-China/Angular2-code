@@ -1,0 +1,85 @@
+@import '../../styles/variables';
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.box-title-bar {
+    border-bottom: 1px solid map-get($border-color, common);
+    flex-shrink: 0;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+}
+
+.box-title-con {
+    align-items: center;
+    background: $ctrl-title-bg;
+    border-left: 3px solid map-get($border-color, primary);
+    display: flex;
+    flex-flow: row nowrap;
+    height: 45px;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.box-title {
+    font-size: rem(1.6);
+    line-height: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-end;
+}
+
+.box-title>span {
+    display: inline-block;
+}
+
+.box-sub-title {
+    font-size: rem(1.2);
+    transform: scale(0.8333);
+    position: relative;
+    top: 1px;
+}
+
+:host /deep/ box-ctrl>button:not([md-raised-button]) {
+    background-color: transparent;
+    border: none;
+    color: map-get($font-color, common);
+    cursor: pointer;
+    font-family: $font-family;
+    font-size: rem(1.4);
+    line-height: 1;
+    margin: 0 0 0 10px;
+    outline: none;
+    padding: 0;
+}
+
+:host /deep/ box-ctrl.mat {
+    margin-right: -15px;
+}
+
+:host /deep/ box-ctrl>button:not([md-raised-button]):hover {
+    color: map-get($font-color, primary);
+}
+
+:host /deep/ box-toolbar {
+    background-color: map-get($bg-color, content);
+    border-bottom: 1px solid map-get($border-color, common);
+    flex-shrink: 0;
+    padding: 20px 30px;
+}
+
+.box-content {
+    background-color: map-get($bg-color, content);
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: hidden;
+}
+
+:host /deep/ box-footer {
+    background-color: map-get($bg-color, content);
+    border-top: 1px solid map-get($border-color, common);
+    flex-shrink: 0;
+    padding: 10px 20px;
+}

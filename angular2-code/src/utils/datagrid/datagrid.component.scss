@@ -1,0 +1,162 @@
+@import '../../styles/variables';
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+    border: 1px solid map-get($border-color, common);
+}
+
+.datagrid-header {
+    border-bottom: 2px solid map-get($border-color, common);
+    width: 100%;
+    background: $ctrl-title-bg;
+    flex-shrink: 0;
+    position: relative;
+    .datagrid-loading {
+        position: absolute;
+        bottom: -5px;
+        height: 5px;
+        width: 100%;
+        overflow: hidden;
+        z-index: 999;
+    }
+    &>div {
+        overflow: hidden;
+        position: relative;
+        &>div {
+            display: flex;
+            flex-flow: row nowrap;
+            overflow: hidden;
+            &.freeze-left {
+                border-right: solid 2px map-get($border-color, common);
+                position: absolute;
+                height: 100%;
+                background: $ctrl-title-bg;
+                left: 0;
+                &>div:last-child {
+                    &>div {
+                        border-right: none;
+                    }
+                }
+            }
+            &.freeze-right {
+                border-left: solid 2px map-get($border-color, common);
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+                background: $ctrl-title-bg;
+            }
+            &>div {
+                display: flex;
+                flex-flow: column nowrap;
+                align-items: center;
+                justify-content: center;
+                &.fill {
+                    flex-grow: 1;
+                }
+                &:last-child {
+                    &>div:last-child {
+                        &>div:last-child {
+                            border: none;
+                        }
+                    }
+                }
+                &>div {
+                    width: 100%;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    flex-grow: 1;
+                    border-bottom: 1px solid map-get($border-color, common);
+                    border-right: 1px solid map-get($border-color, common);
+                    justify-content: center;
+                    align-items: center;
+                    height: 35px;
+                    &:last-child {
+                        border: none;
+                    }
+                    &>.datagrid-group-header {
+                        width: 100%;
+                        border: none;
+                    }
+                    &>div {
+                        border-right: 1px solid map-get($border-color, common);
+                        display: flex;
+                        flex-flow: row nowrap;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                        min-height: 35px;
+                        position: relative;
+                        padding: 0 5px;
+                        &.fill {
+                            flex-grow: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.resizer {
+    top: 0;
+    height: 100%;
+    position: absolute;
+    right: -5px;
+    width: 10px;
+    cursor: ew-resize;
+    z-index: 9;
+}
+
+.sortor {
+    top: 50%;
+    margin-top: -10px;
+    right: 10px;
+    position: absolute;
+}
+
+.sortable {
+    cursor: pointer;
+}
+
+.sortor .fa-sort {
+    color: map-get($font-color, disabled);
+}
+
+.freeze-right>div>div>div>.resizer {
+    right: auto;
+    left: -3px;
+}
+
+.datagrid-row-index-header {
+    justify-content: flex-end;
+}
+
+.datagrid-row-detail-header {
+    width: 20px;
+}
+
+.datagrid-body {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    &.onshift {
+        user-select: none;
+    }
+    &>div {
+        flex-grow: 1;
+        overflow: auto;
+        &>div {
+            min-height: 100px;
+            min-width: 100%;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: stretch;
+        }
+    }
+}
+
+datagrid-row-detail {
+    padding: 10px;
+    border-bottom: 1px solid map-get($border-color, common);
+}

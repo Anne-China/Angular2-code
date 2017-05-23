@@ -1,0 +1,8 @@
+.items {
+    display: flex;
+    flex-flow: row wrap;
+    &>span:not(.spacer) {
+        flex-shrink: 0;
+        margin-bottom: 5px;
+    }
+}

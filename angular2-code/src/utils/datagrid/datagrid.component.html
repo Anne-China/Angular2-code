@@ -1,0 +1,90 @@
+<div class="datagrid-header">
+    <div class="datagrid-loading" *ngIf="isDataLoading">
+        <md-progress-bar mode="indeterminate"></md-progress-bar>
+    </div>
+    <div [style.marginRight.px]="headerMargin">
+        <div class="freeze-left" *ngIf="columnGroups.left.length>0||rowIndexColumn||rowDetailTemplate!=null">
+            <div *ngIf="rowIndexColumn">
+                <div>
+                    <div class="datagrid-row-index-header" [style.width.px]="total<10000?45:60">行号</div>
+                </div>
+            </div>
+            <div *ngIf="rowDetailTemplate!=null">
+                <div>
+                    <div class="datagrid-row-detail-header"></div>
+                </div>
+            </div>
+            <div *ngFor="let group of columnGroups.left; trackBy: columnGroupTrackingFn;">
+                <div *ngIf="group.name!=null">
+                    <div class="datagrid-group-header">{{group.name}}</div>
+                </div>
+                <div>
+                    <div *ngFor="let column of group.columns; trackBy: columnTrackingFn;" [style.width.px]="column.width" md-ripple [mdRippleDisabled]="!column.sortable"
+                        [class.sortable]="column.sortable" (click)="changeSort(column)" [style.justifyContent]="column.headerAlign[0]"
+                        [style.alignItems]="column.headerAlign[1]">
+                        <ng-template [ngIf]="!column.headerTemplate">{{column.name}}</ng-template>
+                        <ng-template *ngIf="column.headerTemplate" [ngTemplateOutlet]="column.headerTemplate" [ngTemplateOutletContext]="{ column: column }">
+                        </ng-template>
+                        <div *ngIf="column.resizable" class="resizer" (mousedown)="resizeStart($event,column)"></div>
+                        <div *ngIf="column.sortable" class="sortor">
+                            <i class="fa fa-sort" [class.fa-sort]="sortProp!=column.sortProp" [class.fa-sort-amount-asc]="sortProp==column.sortProp&&sortDir=='asc'" [class.fa-sort-amount-desc]="sortProp==column.sortProp&&sortDir=='desc'"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div #header [style.marginLeft.px]="leftWidth" [style.marginRight.px]="rightWidth">
+            <div *ngFor="let group of columnGroups.center; trackBy: columnGroupTrackingFn;" [class.fill]="group.fill">
+                <div *ngIf="group.name!=null">
+                    <div class="datagrid-group-header">{{group.name}}</div>
+                </div>
+                <div>
+                    <div *ngFor="let column of group.columns; trackBy: columnTrackingFn;" [style.width.px]="column.width" [class.fill]="column.fill"
+                        [class.sortable]="column.sortable" (click)="changeSort(column)" md-ripple [mdRippleDisabled]="!column.sortable"
+                        [style.justifyContent]="column.headerAlign[0]" [style.alignItems]="column.headerAlign[1]">
+                        <ng-template [ngIf]="!column.headerTemplate">{{column.name}}</ng-template>
+                        <ng-template *ngIf="column.headerTemplate" [ngTemplateOutlet]="column.headerTemplate" [ngTemplateOutletContext]="{ column: column }">
+                        </ng-template>
+                        <div *ngIf="column.resizable" class="resizer" (mousedown)="resizeStart($event,column)"></div>
+                        <div *ngIf="column.sortable" class="sortor">
+                            <i class="fa fa-sort" [class.fa-sort]="sortProp!=column.sortProp" [class.fa-sort-amount-asc]="sortProp==column.sortProp&&sortDir=='asc'" [class.fa-sort-amount-desc]="sortProp==column.sortProp&&sortDir=='desc'"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="freeze-right" *ngIf="columnGroups.right.length>0">
+            <div *ngFor="let group of columnGroups.right; trackBy: columnGroupTrackingFn;">
+                <div *ngIf="group.name!=null">
+                    <div class="datagrid-group-header">{{group.name}}</div>
+                </div>
+                <div>
+                    <div *ngFor="let column of group.columns; trackBy: columnTrackingFn;" [style.width.px]="column.width" md-ripple [mdRippleDisabled]="!column.sortable"
+                        [class.sortable]="column.sortable" (click)="changeSort(column)" [style.justifyContent]="column.headerAlign[0]"
+                        [style.alignItems]="column.headerAlign[1]">
+                        <ng-template [ngIf]="!column.headerTemplate">{{column.name}}</ng-template>
+                        <ng-template *ngIf="column.headerTemplate" [ngTemplateOutlet]="column.headerTemplate" [ngTemplateOutletContext]="{ column: column }">
+                        </ng-template>
+                        <div *ngIf="column.resizable" class="resizer" (mousedown)="resizeStart($event,column)"></div>
+                        <div *ngIf="column.sortable" class="sortor">
+                            <i class="fa fa-sort" [class.fa-sort]="sortProp!=column.sortProp" [class.fa-sort-amount-asc]="sortProp==column.sortProp&&sortDir=='asc'" [class.fa-sort-amount-desc]="sortProp==column.sortProp&&sortDir=='desc'"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="datagrid-body" [class.striped]="striped" [class.onshift]="isShiftKeydown" #body>
+    <div (scroll)="onBodyScroll()" #scroller>
+        <div [style.minWidth.px]="minFullWidth">
+            <ng-template ngFor let-row let-i="index" [ngForOf]="rows" [ngForTrackBy]="rowTrackingFn">
+                <datagrid-row [row]="row" (click)="onRowClick($event,row)" (dblclick)="rowDblClick($event,row)" [class.selected]="row.$$selected"></datagrid-row>
+                <datagrid-row-detail *ngIf="row.$$expanded&&rowDetailTemplate">
+                    <ng-template [ngTemplateOutlet]="rowDetailTemplate" [ngTemplateOutletContext]="{ data: row.data, row: row }">
+                    </ng-template>
+                </datagrid-row-detail>
+            </ng-template>
+        </div>
+    </div>
+</div>

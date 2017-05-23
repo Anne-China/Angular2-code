@@ -1,0 +1,25 @@
+box {
+  box-toolbar {
+    form {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      &>autocomplete,
+      &>button {
+        margin-right: 10px;
+      }
+    }
+  }
+  datagrid {
+    button {
+      margin-right: 5px;
+    }
+  }
+}
+
+.brand-pic {
+  max-height: 50px;
+  min-height: 50px;
+  max-width: 190px;
+  padding-right: 5px;
+}

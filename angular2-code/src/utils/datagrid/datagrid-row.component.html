@@ -1,0 +1,36 @@
+<div class="freeze-left" *ngIf="dataGrid.columnGroups.left.length>0||dataGrid.rowIndexColumn||dataGrid.rowDetailTemplate!=null" [style.left.px]="dataGrid.scrollLeft">
+    <div class="datagrid-row-index-cell" *ngIf="dataGrid.rowIndexColumn" [style.width.px]="dataGrid.total<10000?45:60">
+        {{row.$$index+1}}
+    </div>
+    <div class="datagrid-row-detail-cell" *ngIf="dataGrid.rowDetailTemplate!=null" [class.expanded]="row.$$expanded" (click)="row.$$expanded=!row.$$expanded">
+        <i class="fa fa-caret-right" [class.expanded]="row.$$expanded"></i>
+    </div>
+    <ng-template ngFor let-group [ngForOf]="dataGrid.columnGroups.left" [ngForTrackBy]="dataGrid.columnGroupTrackingFn">
+        <div *ngFor="let column of group.columns; trackBy: dataGrid.columnTrackingFn;" [style.width.px]="column.width" [style.justifyContent]="column.align[0]"
+            [style.alignItems]="column.align[1]">
+            <ng-template [ngIf]="!column.cellTemplate">{{value(column)}}</ng-template>
+            <ng-template *ngIf="column.cellTemplate" [ngTemplateOutlet]="column.cellTemplate" [ngTemplateOutletContext]="{ value: value(column), row: row, column: column, data: row.data }">
+            </ng-template>
+        </div>
+    </ng-template>
+</div>
+<div class="fill">
+    <ng-template ngFor let-group [ngForOf]="dataGrid.columnGroups.center" [ngForTrackBy]="dataGrid.columnGroupTrackingFn">
+        <div *ngFor="let column of group.columns; trackBy: dataGrid.columnTrackingFn;" [style.width.px]="column.width" [class.fill]="column.fill"
+            [style.justifyContent]="column.align[0]" [style.alignItems]="column.align[1]">
+            <ng-template [ngIf]="!column.cellTemplate">{{value(column)}}</ng-template>
+            <ng-template *ngIf="column.cellTemplate" [ngTemplateOutlet]="column.cellTemplate" [ngTemplateOutletContext]="{ value: value(column), row: row, column: column, data: row.data }">
+            </ng-template>
+        </div>
+    </ng-template>
+</div>
+<div class="freeze-right" *ngIf="dataGrid.columnGroups.right.length>0" [style.right.px]="dataGrid.scrollRight">
+    <ng-template ngFor let-group [ngForOf]="dataGrid.columnGroups.right" [ngForTrackBy]="dataGrid.columnGroupTrackingFn">
+        <div *ngFor="let column of group.columns; trackBy: dataGrid.columnTrackingFn;" [style.width.px]="column.width" [style.justifyContent]="column.align[0]"
+            [style.alignItems]="column.align[1]">
+            <ng-template [ngIf]="!column.cellTemplate">{{value(column)}}</ng-template>
+            <ng-template *ngIf="column.cellTemplate" [ngTemplateOutlet]="column.cellTemplate" [ngTemplateOutletContext]="{ value: value(column), row: row, column: column, data: row.data }">
+            </ng-template>
+        </div>
+    </ng-template>
+</div>

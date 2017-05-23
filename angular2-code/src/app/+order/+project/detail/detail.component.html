@@ -1,0 +1,220 @@
+<box name="工程详情" sub-name="Project detail">
+    <div class="detail">
+        <div>
+            <label class="detail-label">联系人：</label>{{project?.ContactName}} {{project?.ContactGender=='男'?'先生':(project?.ContactGender=='女'?'女士':'')}}
+            <span *ngIf="project?.ContactPhone">({{project?.ContactPhone}})</span>
+        </div>
+        <div>
+            <label class="detail-label">房屋信息：</label>
+            <span *ngIf="project?.HouseInfo.IndoorArea>0">室内面积: {{project?.HouseInfo.IndoorArea}}m<sup>2</sup>，</span>
+            <span *ngIf="project?.HouseInfo.OutdoorArea>0">室外面积: {{project?.HouseInfo.OutdoorArea}}m<sup>2</sup>，</span>{{project?.HouseInfo.Detail}}
+        </div>
+        <div><label class="detail-label">地址：</label>{{project?.Address.Area}}{{project?.Address.Detail}}</div>
+    </div>
+</box>
+<md-card>
+    <md-tab-group>
+
+        <md-tab label="工程选人">
+            <form autocomplete="off" novalidate>
+                <dropdown placeholder="工人技能" name="querySkill" [(ngModel)]="query.skillID" [options]="skills" width="150" can-clear></dropdown>
+                <button class="btn" color="primary" md-raised-button (click)="queryWorkers()">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </form>
+            <fieldset>
+                <legend>候选工人</legend>
+                <datagrid key-props="ID" #candidateWorkerDataGrid="dataGrid" [pager]="pagerForCandidateWorkerDataGrid" pagable striped>
+                    <datagrid-column-group>
+                        <datagrid-column prop="MxcomeNO" name="MXCOME号" align="center" width="120"></datagrid-column>
+                        <datagrid-column prop="Name" name="姓名" align="center" width="120"></datagrid-column>
+                        <datagrid-column prop="NickName" name="昵称" align="center" width="120"></datagrid-column>
+                        <datagrid-column name="头像" prop="Avatar" align="center" width="60">
+                            <ng-template datagrid-cell let-value="value">
+                                <img class="avatar" *ngIf="value!=null" [attr.src]="value" />
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Gender" name="性别" align="center" width="60"></datagrid-column>
+                        <datagrid-column prop="WorkYears" name="工龄" align="center" width="60"></datagrid-column>
+                        <datagrid-column prop="GetOrders" name="接单量" align="center" resizable width="120"></datagrid-column>
+                        <datagrid-column prop="Score" name="评分" align="right" width="100">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | number:'.0-2'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Skills" name="技能" width="300" resizable fill align="left" header-align="left">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | join:'/'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column name="操作" width="80" freeze="right" align="center">
+                            <ng-template datagrid-cell let-row="row">
+                                <button class="btn btn-xs" color="primary" md-raised-button (click)="addWorker(row.data)">
+                                    <i class="fa fa-plus"></i> 选择
+                                </button>
+                            </ng-template>
+                        </datagrid-column>
+                    </datagrid-column-group>
+                </datagrid>
+                <pager dropdown-dir="up" #pagerForCandidateWorkerDataGrid="pager" show-refresh-btn="false"></pager>
+            </fieldset>
+            <fieldset>
+                <legend>已选工人</legend>
+                <datagrid key-props="ID" #selectedWorkerDataGrid="dataGrid" [pager]="pagerForSelectedWorkerDataGrid" pagable striped>
+                    <datagrid-column-group>
+                        <datagrid-column prop="MxcomeNO" name="MXCOME号" align="center" width="120"></datagrid-column>
+                        <datagrid-column prop="Name" name="姓名" align="center" width="120"></datagrid-column>
+                        <datagrid-column name="头像" prop="Avatar" align="center" width="60">
+                            <ng-template datagrid-cell let-value="value">
+                                <img class="avatar" *ngIf="value!=null" [attr.src]="value" />
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Gender" name="性别" align="center" width="60"></datagrid-column>
+                        <datagrid-column prop="WorkYears" name="工龄" align="center" width="60"></datagrid-column>
+                        <datagrid-column prop="GetOrders" name="接单量" align="center" resizable width="120"></datagrid-column>
+                        <datagrid-column prop="Score" name="评分" align="right" width="100">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | number:'.0-2'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Job" name="施工内容" width="300" resizable fill align="left" header-align="left">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | join:'/'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column name="操作" width="80" freeze="right" align="center">
+                            <ng-template datagrid-cell let-row="row">
+                                <button class="btn btn-xs" color="warn" md-raised-button (click)="delWorker(row.data)">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
+                            </ng-template>
+                        </datagrid-column>
+                    </datagrid-column-group>
+                </datagrid>
+                <pager dropdown-dir="up" #pagerForSelectedWorkerDataGrid="pager" show-refresh-btn="false"></pager>
+            </fieldset>
+        </md-tab>
+
+        <md-tab label="工程选材">
+            <form autocomplete="off" novalidate>
+                <dropdown placeholder="材料包" name="queryPackage" [(ngModel)]="query.packageID" [options]="packages" width="150" can-clear
+                    (change)="packageChanged($event)"></dropdown>
+                <dropdown placeholder="分类" name="queryCategory" [disabled]="!query.packageID" display-prop="Name" value-prop="ID" [(ngModel)]="query.categoryID"
+                    [options]="categories" width="150" can-clear (change)="categoryChanged($event)"></dropdown>
+                <dropdown placeholder="品牌" name="queryBrand" [disabled]="!query.categoryID" display-prop="Name" value-prop="ID" [(ngModel)]="query.brandID"
+                    [options]="brands" width="150" can-clear></dropdown>
+                <button class="btn" color="primary" md-raised-button (click)="queryProduct()">
+                <i class="fa fa-search"></i> 查询
+            </button>
+            </form>
+            <fieldset>
+                <legend>候选材料</legend>
+                <datagrid key-props="ID" #candidateProductDataGrid="dataGrid" [pager]="pagerForCandidateProductDataGrid" pagable striped>
+                    <datagrid-column-group>
+                        <datagrid-column prop="CategoryName" name="分类" align="center" resizable width="120"></datagrid-column>
+                        <datagrid-column prop="BrandName" name="品牌" align="center" resizable width="120"></datagrid-column>
+                        <datagrid-column prop="Price" name="价格(￥)" align="right" width="100">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | number:'.0-2'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Specification" name="规格" width="300" resizable align="left">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | join:'/'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Stock" name="库存" align="center" width="60"></datagrid-column>
+                        <datagrid-column prop="Name" name="产品名称" align="left" resizable fill width="200"></datagrid-column>
+                        <datagrid-column name="操作" width="80" freeze="right" align="center">
+                            <ng-template datagrid-cell let-row="row">
+                                <button class="btn btn-xs" color="primary" md-raised-button (click)="addProduct(row.data)">
+                                    <i class="fa fa-plus"></i> 选择
+                                </button>
+                            </ng-template>
+                        </datagrid-column>
+                    </datagrid-column-group>
+                </datagrid>
+                <pager dropdown-dir="up" #pagerForCandidateProductDataGrid="pager" show-refresh-btn="false"></pager>
+            </fieldset>
+            <fieldset>
+                <legend>已选材料</legend>
+                <datagrid key-props="ID" #selectedProductDataGrid="dataGrid" [pager]="pagerForSelectedProductDataGrid" pagable striped>
+                    <datagrid-column-group>
+                        <datagrid-column prop="CategoryName" name="分类" align="center" resizable width="120"></datagrid-column>
+                        <datagrid-column prop="BrandName" name="品牌" align="center" resizable width="120"></datagrid-column>
+                        <datagrid-column prop="Price" name="价格(￥)" align="right" width="100">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | number:'.0-2'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Specification" name="规格" width="300" resizable align="left">
+                            <ng-template datagrid-cell let-value="value">
+                                {{value | join:'/'}}
+                            </ng-template>
+                        </datagrid-column>
+                        <datagrid-column prop="Quantity" name="数量" align="center" width="60"></datagrid-column>
+                        <datagrid-column prop="Name" name="产品名称" align="left" resizable fill width="200"></datagrid-column>
+                        <datagrid-column name="操作" width="160" freeze="right" align="center">
+                            <ng-template datagrid-cell let-row="row">
+                                <button class="btn btn-xs" color="primary" md-raised-button (click)="editProductQuantity(row.data)">
+                                    <i class="fa fa-pencil"></i> 编辑
+                                </button>
+                                <button class="btn btn-xs" color="warn" md-raised-button (click)="delProduct(row.data)">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
+                            </ng-template>
+                        </datagrid-column>
+                    </datagrid-column-group>
+                </datagrid>
+                <pager dropdown-dir="up" #pagerForSelectedProductDataGrid="pager" show-refresh-btn="false"></pager>
+            </fieldset>
+        </md-tab>
+
+        <md-tab label="用户已选">
+            <form autocomplete="off" novalidate>
+                <button class="btn" color="primary" md-raised-button (click)="queryWorkerMaterial()">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </form>
+            <fieldset>
+                <legend>已选工人</legend>
+                <datagrid key-props="ID" #myWorkerDataGrid="dataGrid" [pager]="pagerMyWorkerDataGrid" pagable striped>
+                    <datagrid-column-group>
+                        <datagrid-column prop="itemId" name="ID" align="center" width="120"></datagrid-column>
+                        <datagrid-column prop="itemValue" name="名称" align="center" width="150"></datagrid-column>
+                        <datagrid-column prop="ititle" name="选择内容" align="center" width="200"></datagrid-column>
+                        <datagrid-column prop="desc" name="描述" align="center" width="220"></datagrid-column>
+                        <datagrid-column name="操作" width="80" freeze="right" align="center">
+                            <ng-template datagrid-cell let-row="row">
+                                <button class="btn btn-xs" color="warn" md-raised-button (click)="delWorker(row.data)">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
+                            </ng-template>
+                        </datagrid-column>
+                    </datagrid-column-group>
+                </datagrid>
+                <pager dropdown-dir="up" #pagerMyWorkerDataGrid="pager" show-refresh-btn="false"></pager>
+            </fieldset>
+            <fieldset>
+                <legend>已选材料</legend>
+                <datagrid key-props="ID" #myMaterialDataGrid="dataGrid" [pager]="pagerMyMaterialDataGrid" pagable striped>
+                    <datagrid-column-group>
+                        <datagrid-column prop="itemId" name="ID" align="center" width="120"></datagrid-column>
+                        <datagrid-column prop="itemValue" name="名称" align="center" width="150"></datagrid-column>
+                        <datagrid-column prop="ititle" name="选择内容" align="center" width="200"></datagrid-column>
+                        <datagrid-column prop="desc" name="描述" align="center" width="220"></datagrid-column>
+                        <datagrid-column name="操作" width="80" freeze="right" align="center">
+                            <ng-template datagrid-cell let-row="row">
+                                <button class="btn btn-xs" color="warn" md-raised-button (click)="delWorker(row.data)">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
+                            </ng-template>
+                        </datagrid-column>
+                    </datagrid-column-group>
+                </datagrid>
+                <pager dropdown-dir="up" #pagerMyMaterialDataGrid="pager" show-refresh-btn="false"></pager>
+            </fieldset>
+        </md-tab>
+
+    </md-tab-group>
+</md-card>

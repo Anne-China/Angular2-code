@@ -1,0 +1,46 @@
+<h1 md-dialog-title>{{editData.ID==null?'新增':'编辑'}}供应商</h1>
+<md-dialog-content>
+    <form class="editor form-inline mat" input-width="300" novalidate autocomplete="off" #providerForm="ngForm">
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="供应商名称" required name="Name" [(ngModel)]="editData.Name" #name="ngModel">
+            </md-input-container>
+            <validation [for]="name">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写供应商名称。</message>
+                <message validator="required">请填写供应商名称。</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="联系电话" name="Phone" [(ngModel)]="editData.Phone" #phone="ngModel">
+            </md-input-container>
+            <validation [for]="phone">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写供应商联系电话。</message>
+                <message validator="required">请填写供应商联系电话</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <dropdown placeholder="供应商级别" name="Level" [(ngModel)]="editData.Level" [options]="dicts.Level" #level="ngModel" can-clear></dropdown>
+            <validation [for]="level">
+                <message valid *ngIf="editData.Level!=null"><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择供应商级别（可空）。</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <md-input-container>
+                <textarea mdInput placeholder="供应商地址" required name="Address" [(ngModel)]="editData.Address" #address="ngModel"></textarea>
+            </md-input-container>
+            <validation [for]="address">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写供应商地址。</message>
+                <message validator="required">请填写供应商地址。</message>
+            </validation>
+        </div>
+    </form>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button color="primary" [disabled]="providerForm.invalid" (click)="save()">确定</button>
+    <button md-raised-button md-dialog-close>取消</button>
+</md-dialog-actions>

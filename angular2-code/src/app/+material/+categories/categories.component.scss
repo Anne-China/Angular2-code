@@ -1,0 +1,178 @@
+@import '../../../styles/variables';
+:host {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    &>box {
+        width: 250px;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+    &>div {
+        flex-grow: 1;
+        display: flex;
+        flex-flow: column nowrap;
+        width: 1px;
+        &>box:first-child {
+            flex-shrink: 0;
+            margin-bottom: 10px;
+            position: relative;
+            .bottom-expander {
+                position: absolute;
+                left: 50%;
+                margin-left: -56px;
+                bottom: -5px;
+            }
+            .info {
+                min-height: 56px;
+                z-index: 99;
+                &>div:first-child {
+                    padding: 10px;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                    min-height: 56px;
+                    img {
+                        max-height: 120px;
+                        margin-right: 10px;
+                    }
+                }
+            }
+            &.collspan {
+                height: 102px;
+                .info{
+                    img{
+                        max-height: 36px !important;
+                    }
+                }
+            }
+            .items {
+                display: flex;
+                flex-flow: row wrap;
+                margin-top: 15px;
+                padding: 20px 10px 10px 10px;
+                border-top: 1px solid map-get($border-color, common);
+                position: relative;
+                flex-shrink: 0;
+                &>.title {
+                    position: absolute;
+                    top: -12px;
+                    left: 40px;
+                    background-color: map-get($bg-color, content);
+                    display: inline-block;
+                    padding: 0 5px;
+                }
+                &>.chip {
+                    flex-shrink: 0;
+                    margin-bottom: 5px;
+                    &>img {
+                        max-height: 40px;
+                        margin: 5px;
+                    }
+                }
+            }
+        }
+        &>box:last-child {
+            flex-grow: 1;
+            overflow: hidden;
+            datagrid {
+                margin: -1px;
+                flex-grow: 1;
+                button {
+                    margin-right: 5px;
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+            pager {
+                float: right;
+            }
+            box-toolbar {
+                form {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                    &>input,
+                    &>autocomplete,
+                    &>md-input-container,
+                    &>button {
+                        margin-right: 10px;
+                    }
+                    &>:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.size-ctrl {
+    cursor: pointer;
+}
+
+.thunmbnail {
+    max-height: 50px;
+}
+
+.detail {
+    display: flex;
+    flex-flow: row nowrap;
+    .pic {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        &.nopic {
+            border: 1px solid map-get($border-color, common);
+            padding: 10px;
+            white-space: nowrap;
+            &:after {
+                content: '无图片';
+            }
+        }
+        &>img {
+            flex-flow: 1;
+        }
+    }
+    .info {
+        display: flex;
+        flex-flow: row wrap;
+        &>div {
+            width: 25%;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            label {
+                display: inline-block;
+                height: 36px;
+                line-height: 36px;
+                text-align: right;
+                padding: 0 5px;
+                width: 100px;
+                margin: 0 5px 1px 0;
+            }
+            &:nth-child(14) {
+                width: 75%;
+            }
+            &:nth-child(15) {
+                width: 100%;
+                label {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+box.left-max {
+    margin-left: -370px;
+    margin-right: 20px;
+}
+
+box.top-max {
+    margin-top: -122px;
+    margin-bottom: 20px !important;
+}

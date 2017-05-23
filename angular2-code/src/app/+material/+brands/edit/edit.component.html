@@ -1,0 +1,69 @@
+<h1 md-dialog-title>{{editObj.ID==null?'新增':'编辑'}}品牌</h1>
+<md-dialog-content>
+    <form novalidate autocomplete="off" class="editor form-inline mat" input-width="300" #brandEditForm="ngForm">
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="品牌名称" name="Name" required [(ngModel)]="editObj.Name" #name="ngModel" #nameInput>
+            </md-input-container>
+            <validation [for]="name">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写品牌名称</message>
+                <message validator="required">请填写品牌名称</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="推荐权重" name="RecommandWeight" required [(ngModel)]="editObj.RecommandWeight" pattern="^(0|[1-9]\d*)$"
+                    maxlength="9" #recommandWeight="ngModel">
+            </md-input-container>
+            <validation [for]="recommandWeight">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写推荐权重，数字越大，权重越高</message>
+                <message validator="required">请填写推荐权重，数字越大，权重越高</message>
+                <message validator="pattern">推荐权重仅允许整数，且不小于0</message>
+                <message validator="maxlength">推荐权重最大不可超过9位数</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="热销权重" name="SellWellWeight" required [(ngModel)]="editObj.SellWellWeight" pattern="^(0|[1-9]\d*)$"
+                    maxlength="9" #sellWellWeight="ngModel">
+            </md-input-container>
+            <validation [for]="sellWellWeight">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写热销权重，数字越大，权重越高</message>
+                <message validator="required">请填写热销权重，数字越大，权重越高</message>
+                <message validator="pattern">热销权重仅允许整数，且不小于0</message>
+                <message validator="maxlength">热销权重最大不可超过9位数</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <autocomplete name="Provider" placeholder="所属厂商" [(ngModel)]="editObj.Provider" display-prop="Name" [data-loader]="providersLoader"
+                #provider="ngModel"></autocomplete>
+            <validation [for]="provider">
+                <message valid *ngIf="editObj.Provider!=null"><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择品牌所属厂商(可选)。</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <dropdown placeholder="品牌档次" name="Skill" [(ngModel)]="editObj.TagId" [options]="tags" width="150" #level="ngModel"></dropdown>
+            <validation [for]="level">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择品牌档次(可选)。</message>
+                <message validator="required">请选择品牌档次(可选)。</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <file-uploader name="Logo" allowed-exts="jpg,jpeg,bmp,png,gif" [url]="uploadUrl" [max-file-size]="1024*1024" [additional-params]="uploadAdditonalParameter"
+                item-alias="web_file" auto-upload #uploader="fileUploader">
+                <span class="text-note" *ngIf="editObj.Logo==null">请上传品牌标志图片(可选)。</span>
+                <span class="text-success" *ngIf="editObj.Logo!=null"><i class="fa fa-check"></i> 请上传品牌标志图片(可选)。</span>
+            </file-uploader>
+        </div>
+    </form>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button type="button" color="primary" [disabled]="brandEditForm.invalid||uploader.isUploading||!uploader.isAllComplete"
+        (click)="save()">确定</button>
+    <button md-raised-button md-dialog-close>取消</button>
+</md-dialog-actions>

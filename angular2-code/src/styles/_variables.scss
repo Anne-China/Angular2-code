@@ -1,0 +1,40 @@
+@import '~@angular/material/theming';
+@function rem($multiplier) {
+    $font-size: 10px;
+    @return $multiplier * $font-size;
+}
+
+$font-family: (微软雅黑, 宋体);
+$font-size: (common: rem(1.4));
+
+$body-min-height: 480px;
+$body-min-width:960px;
+
+$bg-color: (body:#f3f3f3, content:white, hover:#f6f8fa, input:#fafafa);
+$font-color: (
+    common:#4e5f70, 
+    primary:#4bb7fd,
+    input:#8e8d92, 
+    disabled:#ccc, 
+    note:gray, 
+    error:red, 
+    success:green,
+    selected:white,
+    warnning:orange
+);
+$border-color: (common:#e2e5e5, primary:#4bb7fd);
+$selected-color: (bg:#4bb7fd, font:white);
+$link-color: (common:#4e5f70,hover:#4bb7fd);
+$btn-color:(
+    default:(
+        common:(bg:#5ccdc6,font:white),
+        hover:(bg:#4bb7fd,font:white)
+    ), 
+    failed:(
+        common:(bg:#fa7169, font:white)
+    )
+);
+$progress-bar-color: (bg:#4e5f70, bar:#4bb7fd);
+
+$ctrl-title-bg: linear-gradient(to bottom, white, #f9f9f9);
+$datagrid-row-index-cell-bg: linear-gradient(to right, white, #f9f9f9);

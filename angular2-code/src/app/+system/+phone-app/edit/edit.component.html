@@ -1,0 +1,40 @@
+<h1 md-dialog-title>发布版本信息</h1>
+<md-dialog-content>
+    <form autocomplete="off" novalidate class="editor form-inline" input-width="300" #phoneAppEditForm="ngForm">
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="版本号" name="VersionNumber" required [(ngModel)]="phoneApp.VersionNumber" #versionNumber="ngModel" #VersioNumber>
+            </md-input-container>
+            <validation [for]="versionNumber">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写版本号</message>
+                <message validator="required">请填写版本号</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <dropdown name="Type" placeholder="终端类型" [(ngModel)]="phoneApp.TypeId" #type="ngModel" [options]="dicts.Type" required></dropdown>
+            <validation [for]="type">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择终端类型</message>
+                <message validator="required">请填写终端类型</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <span class="text-note">是否强制更新：</span>
+            <md-radio-group>
+                <md-radio-button value="yes" checked="checked">是</md-radio-button>
+                <md-radio-button value="no">否</md-radio-button>
+            </md-radio-group>
+        </div>
+        <div class="form-group">
+            <file-uploader name="UpdatePath" allowed-exts="apk,api" [url]="uploadUrl" [max-file-size]="1024*1024*200" [additional-params]="uploadAdditonalParameter" item-alias="file" auto-upload #uploader="fileUploader">
+                <span class="text-note" *ngIf="phoneApp.UpdatePath==null">请上传apk/api文件</span>
+                <span class="text-success" *ngIf="phoneApp.UpdatePath!=null"><i class="fa fa-check"></i> 上传成功</span>
+            </file-uploader>
+        </div>
+    </form>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button type="button" color="primary" (click)="save()" [disabled]="phoneAppEditForm.invalid || uploader.isUploading||!uploader.isAllComplete">确定</button>
+    <button md-raised-button md-dialog-close>取消</button>
+</md-dialog-actions>

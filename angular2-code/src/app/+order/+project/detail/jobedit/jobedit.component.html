@@ -1,0 +1,17 @@
+<h1 md-dialog-title>选择施工内容</h1>
+<md-dialog-content>
+    <form novalidate autocomplete="off" class="editor form-inline mat" input-width="150" #skillEditForm="ngForm">
+        <div class="form-group">
+            <dropdown placeholder="施工内容" name="Skill" [(ngModel)]="skillID" [options]="skills" width="150" #skillType="ngModel"></dropdown>
+            <validation [for]="skillType">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择施工内容。</message>
+                <message validator="required">请选择施工内容。</message>
+            </validation>
+        </div>
+    </form>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button type="button" color="primary" [disabled]="skillEditForm.invalid" (click)="save()">确定</button>
+    <button md-raised-button md-dialog-close>取消</button>
+</md-dialog-actions>

@@ -1,0 +1,21 @@
+<h1 md-dialog-title>选择材料数量</h1>
+<md-dialog-content>
+    <form novalidate autocomplete="off" class="editor form-inline mat" input-width="100" #quantityEditForm="ngForm">
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="材料数量" name="Quantity" required [(ngModel)]="quantity" #quantityNum="ngModel" pattern="^(0|[1-9]\d*)(\.\d{1,2})?$">
+            </md-input-container>
+            <validation [for]="quantityNum">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写材料数量。</message>
+                <message validator="required">请填写材料数量。</message>
+                <message validator="pattern">材料数量必须是数字，且不可小于0，最多两位小数。</message>
+            </validation>
+        </div>
+    </form>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button type="button" color="primary" [disabled]="quantityEditForm.invalid"
+        (click)="save()">确定</button>
+    <button md-raised-button md-dialog-close>取消</button>
+</md-dialog-actions>

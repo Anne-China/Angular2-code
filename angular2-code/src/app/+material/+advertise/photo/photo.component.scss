@@ -1,0 +1,41 @@
+div {
+  button {
+    float: right;
+    margin-top: -45px;
+    margin-right: 0px;
+  }
+}
+
+div {
+  ul {
+    list-style: none;
+    li {
+      display: inline;
+      position: relative;
+      img {
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+      img + i {
+        padding-right: 20px;
+        color: deepskyblue;
+      }
+      i {
+        position: absolute;
+        z-index: 2;
+        right: 15px;
+        padding-top: 5px;
+        color: red;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.brand-pic {
+  max-height: 100px;
+  min-height: 100px;
+  max-width: 150px;
+  min-width: 100px;
+  margin-right: 10px;
+}

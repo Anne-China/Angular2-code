@@ -1,0 +1,275 @@
+input.form-ctrl,
+pager dropdown,
+.form-ctrl>input {
+    @include mat-elevation-transition;
+    background-color: map-get($bg-color, input);
+    border: 1px solid map-get($border-color, common);
+    border-radius: 18px;
+    color: map-get($font-color, input);
+    display: inline-block;
+    font-size: map-get($font-size, common);
+    height: 36px;
+    line-height: 36px;
+    outline: none;
+    padding: 0 15px;
+}
+
+.form-ctrl>input {
+    width: 100%;
+}
+
+textarea.form-ctrl {
+    border-radius: 4px;
+    padding: 5px;
+}
+
+pager dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 7px 0 10px;
+    md-select {
+        position: relative;
+        top: 1px;
+    }
+    .mat-select-trigger {
+        min-width: 40px !important;
+        margin-top: 0 !important;
+        padding-bottom: 0 !important;
+        .mat-select-underline {
+            display: none;
+        }
+    }
+}
+
+textarea,
+input {
+    font-family: $font-family !important;
+    font-size: map-get($font-size, common);
+    border: 1px solid map-get($border-color, common);
+    outline: none;
+    color: map-get($font-color, input);
+    background-color: map-get($bg-color, input);
+}
+
+.placeholder {
+    color: map-get($font-color, input);
+    font-family: $font-family;
+    font-style: italic;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: map-get($font-color, input);
+    font-family: $font-family;
+    font-style: italic;
+}
+
+:-ms-input-placeholder {
+    /* IE 10+ */
+    color: map-get($font-color, input);
+    font-family: $font-family;
+    font-style: italic;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: map-get($font-color, input);
+    font-family: $font-family;
+    font-style: italic;
+}
+
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: map-get($font-color, input);
+    font-family: $font-family;
+    font-style: italic;
+}
+
+.form-ctrl {
+    @include mat-elevation-transition;
+    border-radius: 18px;
+    display: inline-block;
+    position: relative;
+    outline: none;
+    &.caret,
+    &.search>input {
+        padding-right: 30px;
+    }
+    &.caret,
+    &.search {
+        &:after {
+            background: url('/assets/img/icons.png') no-repeat;
+            content: "";
+            display: block;
+            height: 18px;
+            position: absolute;
+            right: 10px;
+            top: 9px;
+            width: 18px;
+        }
+    }
+    &.search:after {
+        background-position: -40px top;
+    }
+    &.caret:after {
+        background-position: -4px -1px;
+    }
+    &.caret.up:after {
+        background-position: -4px -1px;
+        transform: rotate(180deg);
+    }
+}
+
+dropdown {
+    display: inline-block;
+}
+
+validation {
+    display: inline;
+    message {
+        display: none;
+        &.active {
+            color: map-get($font-color, error);
+            display: inline;
+            &[pristine] {
+                color: map-get($font-color, note);
+            }
+            &[valid] {
+                color: map-get($font-color, success);
+            }
+            &.pristine {
+                color: map-get($font-color, note);
+            }
+        }
+    }
+}
+
+.mat-input-container,
+.mat-select,
+.mat-select-trigger {
+    font-family: $font-family !important;
+    font-size: rem(1.4) !important;
+}
+
+.mat-select-trigger {
+    height: 25px !important;
+    padding-bottom: 6px !important;
+    margin-top: 1em !important;
+}
+
+.mat-select-value-text {
+    line-height: 16px !important;
+    overflow: hidden;
+}
+
+.mat-select-placeholder {
+    padding: 0 !important;
+}
+
+.mat-select-placeholder.mat-floating-placeholder {
+    top: -1em !important;
+    left: 0 !important;
+}
+
+.mat-select-underline {
+    bottom: 1px !important;
+}
+
+.mat-option {
+    display: flex;
+    justify-content: space-between;
+    .mat-option-ripple {
+        z-index: -1;
+    }
+}
+
+.mat-dialog-content form.editor {
+    margin-top: -15px;
+}
+
+.mat-input-wrapper {
+    margin-bottom: 0 !important;
+}
+
+.mat-autocomplete-panel {
+    max-width: 100% !important;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    &>label {
+        display: inline-block;
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: rem(1.6);
+        font-weight: bold;
+    }
+    &>validation {
+        padding-left: 15px;
+        margin-bottom: 5px;
+    }
+    &>input,
+    &>textarea,
+    &>dropdown {
+        width: 100%;
+    }
+    &>file-uploader {
+        margin-top: 15px;
+        width: 100%;
+    }
+}
+
+form.mat.hint .form-group,
+.form-group.hint {
+    .mat-input-wrapper {
+        margin-bottom: 1em !important;
+    }
+}
+
+.form-inline .form-group {
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    &.mat {
+        align-items: flex-end;
+    }
+    &>label {
+        text-align: right;
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+    &>validation {
+        padding-left: 0;
+        margin-bottom: 0;
+        margin-left: 10px;
+    }
+    &>input,
+    &>textarea,
+    &>dropdown {
+        width: auto;
+    }
+}
+
+.form-inline.mat .form-group {
+    align-items: flex-end;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-inline.mat.hint .form-group,
+.form-inline.mat .form-group.hint {
+    &>label,
+    &>validation,
+    &>input,
+    &>textarea,
+    &>dropdown,
+    .mat-input-wrapper {
+        margin-bottom: 1em !important;
+    }
+}

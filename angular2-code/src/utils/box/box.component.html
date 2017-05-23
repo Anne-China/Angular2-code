@@ -1,0 +1,18 @@
+<div class="box-title-bar">
+    <div class="box-title-con">
+        <div class="box-title">
+            <span>
+                {{name}}
+                <ng-content select="box-title"></ng-content>
+            </span>
+            <span class="box-sub-title">{{subName}}</span>
+        </div>
+        <ng-content select="box-ctrl"></ng-content>
+    </div>
+</div>
+<ng-content select="box-toolbar"></ng-content>
+<div class="box-content">
+    <ng-content select="box-body"></ng-content>
+    <ng-content></ng-content>
+</div>
+<ng-content select="box-footer"></ng-content>

@@ -1,0 +1,61 @@
+<h1 md-dialog-title>{{editObj.ID==null?'新增':'编辑'}}{{editObj.ParentID==0?'顶层':''}}品种分类</h1>
+<md-dialog-content>
+    <form novalidate autocomplete="off" class="editor form-inline mat" input-width="300" #categoryEditForm="ngForm">
+        <div class="form-group" *ngIf="editObj.ParentID!=0">
+            上级分类：{{parents}}
+        </div>
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="品种分类名称" name="Name" required [(ngModel)]="editObj.Name" #name="ngModel" #nameInput>
+            </md-input-container>
+            <validation [for]="name">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写品种分类名称</message>
+                <message validator="required">请填写品种分类名称</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <file-uploader name="Picture" allowed-exts="jpg,jpeg,bmp,png,gif" [url]="uploadUrl" [max-file-size]="1024*1024" [additional-params]="uploadAdditonalParameter"
+                item-alias="web_file" auto-upload #uploader="fileUploader">
+                <span class="text-success" *ngIf="editObj.Picture!=null"><i class="fa fa-check"></i></span>
+                <span [class.text-note]="!isUploaderChanged" [class.text-alert]="isUploaderChanged&&editObj.Picture==null" [class.text-success]="isUploaderChanged&&editObj.Picture!=null">请上传品种分类图片</span>
+            </file-uploader>
+        </div>
+        <div class="form-group">
+            <autocomplete name="Provider" placeholder="分类下的供应商" [(ngModel)]="providerObj" display-prop="Name" [data-loader]="providersLoader"
+                (change)="selectProvider($event)" #provider="ngModel"></autocomplete>
+            <validation [for]="provider">
+                <message valid *ngIf="editObj.ProviderIDs.length>0"><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择分类下的供应商(多选)。</message>
+            </validation>
+        </div>
+        <div class="form-group items" *ngIf="editObj.ProviderIDs.length>0">
+            <span class="chip mat-elevation-z1" *ngFor="let id of editObj.ProviderIDs; let i=index">
+                {{providers[id].Name}}
+                <i class="fa fa-remove remove mat-elevation-z1" (click)="removeProvider(i)"></i>
+            </span>
+            <span class="spacer"></span>
+        </div>
+        <div class="form-group">
+            <autocomplete name="Brand" placeholder="分类下的品牌" [(ngModel)]="brandObj" display-prop="Name" [data-loader]="brandsLoader" (change)="selectBrand($event)"
+                #brand="ngModel"></autocomplete>
+            <validation [for]="brand">
+                <message valid *ngIf="editObj.BrandIDs.length>0"><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择分类下的品牌(多选)。</message>
+            </validation>
+        </div>
+        <div class="form-group items" *ngIf="editObj.BrandIDs.length>0">
+            <span class="chip mat-elevation-z1" *ngFor="let id of editObj.BrandIDs; let i=index">
+                <img *ngIf="brands[id].Logo!=null" [attr.src]="brands[id].Logo" />
+                {{brands[id].Name}}
+                <i class="fa fa-remove remove mat-elevation-z1" (click)="removeBrand(i)"></i>
+            </span>
+            <span class="spacer"></span>
+        </div>
+    </form>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button type="button" color="primary" [disabled]="categoryEditForm.invalid||uploader.isUploading||!uploader.isAllComplete||editObj.Picture==null"
+        (click)="save()">确定</button>
+    <button md-raised-button md-dialog-close>取消</button>
+</md-dialog-actions>

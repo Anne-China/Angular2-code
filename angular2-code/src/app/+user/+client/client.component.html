@@ -1,0 +1,59 @@
+<box name="注册用户管理" sub-name="Client users">
+    <box-toolbar>
+        <form novalidate autocomplete="off">
+            <md-input-container>
+                <input mdInput placeholder="编号" name="queryMxcomeID" [(ngModel)]="query.MxcomeID">
+            </md-input-container>
+            <md-input-container>
+                <input mdInput placeholder="电话号码" name="queryPhone" [(ngModel)]="query.Phone">
+            </md-input-container>
+            <button class="btn" color="primary" md-raised-button (click)="queryData()">
+            <i class="fa fa-search"></i> 查询
+        </button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="userid" #clientDataGrid="dataGrid" [pager]="pagerForClientDataGrid" striped pagable [filter]="getFilter"
+        [data-loader]="usersLoader" server-filting serve-paging server-sorting>
+        <datagrid-column-group>
+            <datagrid-column prop="MxcomeID" name="编号" align="center" width="100"></datagrid-column>
+            <datagrid-column prop="Avatar" name="头像" width="80" align="center">
+                <ng-template datagrid-cell let-value="value">
+                    <img class="avatar" *ngIf="value!=null" [attr.src]="value">
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column prop="Name" name="姓名" align="center"></datagrid-column>
+            <datagrid-column prop="Sex" name="性别" width="60" align="center"></datagrid-column>
+            <datagrid-column prop="Age" name="年龄" width="60" align="center"></datagrid-column>
+            <datagrid-column prop="Area" name="地址" header-align="left" fill></datagrid-column>
+            <datagrid-column name="操作" width="120" freeze="right" align="center">
+                <ng-template datagrid-cell let-row="row">
+                    <button class="btn btn-xs" color="primary" md-raised-button (click)="row.$$expanded=!row.$$expanded">
+                        <i class="fa fa-toggle-right" [class.expand]="row.$$expanded"></i>
+                        {{!row.$$expanded?'展开':'收起'}}详情
+                    </button>
+                </ng-template>
+            </datagrid-column>
+        </datagrid-column-group>
+        <ng-template datagrid-row-detail let-row="row" let-data="data">
+            <div class="detail">
+                <div class="avatar" [class.none]="data.Avatar==null">
+                    <img *ngIf="data.Avatar!=null" [attr.src]="data.Avatar">
+                    <span *ngIf="data.Avatar==null">暂无头像</span>
+                </div>
+                <div>
+                    <div><label>姓&nbsp;&nbsp;名：</label>{{data.Name}}</div>
+                    <div><label>性&nbsp;&nbsp;别：</label>{{data.Sex}}</div>
+                    <div><label>年&nbsp;&nbsp;龄：</label>{{data.Age}}</div>
+                </div>
+                <div>
+                    <div><label>手&nbsp;&nbsp;机：</label>{{data.Phone}}</div>
+                    <div><label>地&nbsp;&nbsp;址：</label>{{data.Area}}</div>
+                    <div><label>邮&nbsp;&nbsp;箱：</label>{{data.Email}}</div>
+                </div>
+            </div>
+        </ng-template>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForClientDataGrid="pager"></pager>
+    </box-footer>
+</box>

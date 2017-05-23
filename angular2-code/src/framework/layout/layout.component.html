@@ -1,0 +1,87 @@
+<header [@header]="isAsideExpanded" class="mat-elevation-z4">
+  <span class="welcome">
+    <!--i18n: layout header hello -->
+    您好，
+    <!--/i18n-->
+    <span>{{DisplayUser}}</span>，欢迎使用 MXCOME 商家后台管理系统！</span>
+  <div class="user-ctrl" tabindex="0" (focus)="isUserCtrlInited=isUserCtrlFocus='true'" (blur)="isUserCtrlFocus='false'">
+    <div>
+      <div class="avatar"><img src="/assets/img/avatar.png"></div>
+      <div class="name">{{DisplayUser}}</div>
+      <div class="ctrl"><i class="fa fa-caret-down"></i></div>
+    </div>
+    <ul [class.inited]="isUserCtrlInited=='true'" [@userCtrl]="isUserCtrlFocus" class="mat-elevation-z4">
+      <li>修改密码</li>
+      <li (click)="logout()" >退出</li>
+    </ul>
+  </div>
+</header>
+<div class="announcement" [@fade]="isAnnouncement" [@header]="isAsideExpanded">
+  <span>公告：{{announcementText}}</span>
+  <i class="closer" (click)="closeAnnouncement()"></i>
+</div>
+<aside [@aside]="isAsideExpanded">
+  <header>
+    <img src="/assets/img/logo.png">
+    <img src="/assets/img/logo-bs.png">
+  </header>
+  <nav (mousewheel)="navScroll($event)" #nav>
+    <ul>
+      <li routerLinkActive="active">
+        <span routerLink="/system">系统管理</span>
+        <ul>
+          <li routerLinkActive="active" routerLink="/system/phoneApp">App管理</li>
+        </ul>
+      </li>
+      <li routerLinkActive="active">
+        <span routerLink="/user">用户管理</span>
+        <ul>
+          <li routerLinkActive="active" routerLink="/user/client">注册用户</li>
+          <li routerLinkActive="active" routerLink="/user/constr">施工用户</li>
+        </ul>
+      </li>
+      <li routerLinkActive="active">
+        <span routerLink="/order">工程管理</span>
+        <ul>
+          <li routerLinkActive="active" routerLink="/order/ordermgr">订单管理</li>
+          <li routerLinkActive="active" routerLink="/order/project">工程管理</li>
+          <li routerLinkActive="active" routerLink="/order/progress">工程进度</li>
+        </ul>
+      </li>
+      <li routerLinkActive="active">
+        <span routerLink="/material">材料管理</span>
+        <ul>
+          <li routerLinkActive="active" routerLink="/material/provider">供应商管理</li>
+          <li routerLinkActive="active" routerLink="/material/brands">品牌管理</li>
+          <li routerLinkActive="active" routerLink="/material/advertise">广告管理</li>
+          <li routerLinkActive="active" routerLink="/material/categories">分类及材料</li>
+        </ul>
+      </li>
+      <li routerLinkActive="active">
+        <span routerLink="/notice">消息管理</span>
+        <ul>
+          <li routerLinkActive="active" routerLink="/notice/message">公告管理</li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="ex-con">
+    <div class="expander" [@expander]="isAsideExpanded" (click)="isAsideExpanded=(isAsideExpanded=='true'?'false':'true')"></div>
+  </div>
+</aside>
+<div class="content-wrapper">
+  <div class="breadcrumbs">
+    <strong>当前位置：</strong> <a routerLink="/">工作台</a>
+    <ng-template ngFor let-breadcrumb [ngForOf]="breadcrumbs">
+      &gt;
+      <ng-template [ngIf]="breadcrumb.url==null">{{breadcrumb.name}}</ng-template>
+      <a *ngIf="breadcrumb.url!=null" [routerLink]="breadcrumb.url">{{breadcrumb.name}}</a>
+    </ng-template>
+  </div>
+  <section [class.fill]="isFill">
+    <ng-content></ng-content>
+  </section>
+</div>
+<footer [@header]="isAsideExpanded">
+  MXCOME
+</footer>

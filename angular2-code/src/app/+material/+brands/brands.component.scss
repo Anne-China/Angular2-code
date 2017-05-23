@@ -1,0 +1,38 @@
+box {
+    flex-grow: 1;
+    datagrid {
+        margin: -1px;
+        flex-grow: 1;
+        button {
+            margin-right: 5px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+    pager {
+        float: right;
+    }
+    box-toolbar {
+        form {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            &>input,
+            &>autocomplete,
+            &>md-input-container,
+            &>button {
+                margin-right: 10px;
+            }
+            &>:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.brand-pic {
+    max-height: 50px;
+    min-height: 50px;
+    max-width: 190px;
+}

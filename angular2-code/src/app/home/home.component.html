@@ -1,0 +1,54 @@
+<layout>
+  <box name="待收货订单" sub-name="Receiving goods">
+    <box-ctrl>
+      <button>导出</button>
+    </box-ctrl>
+    <box-toolbar>
+      <div class="form-ctrl search" tabindex="0">
+        <input type="text" [(ngModel)]="testModel" required maxlength="10" #test="ngModel">
+      </div>
+      <validation [for]="test">
+        <message pristine>默认</message>
+        <message valid>正确</message>
+        <message validator="required">required</message>
+        <message validator="maxlength">maxlength</message>
+      </validation>
+      <dropdown required placeholder="请选择" [options]="['选项1','选项2','选项3']" [(ngModel)]="ss" width="200" (change)="ssChange($event)"></dropdown>
+      {{ss}}
+    </box-toolbar>
+    <datagrid key-props="userid" default-sort-prop="userid" #userDataGrid="dataGrid" [pager]="pagerForUserDataGrid" pagable multi-selectable toggle-select-click row-index-column striped>
+      <datagrid-column-group>
+        <datagrid-column name="账号" prop="userid" freeze="left" sortable="true"></datagrid-column>
+        <datagrid-column name="姓名" prop="name" sortable="true" fill></datagrid-column>
+      </datagrid-column-group>
+      <datagrid-column-group name="资产">
+        <datagrid-column name="可用" prop="balance" width="80"></datagrid-column>
+        <datagrid-column name="冻结" prop="freeze" width="80"></datagrid-column>
+        <datagrid-column name="总计" prop="total" width="100"></datagrid-column>
+      </datagrid-column-group>
+      <datagrid-column-group name="地址">
+        <datagrid-column name="省" prop="province" sortable="true"></datagrid-column>
+        <datagrid-column name="市" prop="city" sortable="true" resizable min-width="100" max-width="200"></datagrid-column>
+        <datagrid-column name="区" prop="district"></datagrid-column>
+        <datagrid-column name="街道门牌" prop="address" header-align="left" fill></datagrid-column>
+      </datagrid-column-group>
+      <datagrid-column-group>
+        <datagrid-column name="操作" freeze="right" header-align="left">
+          <ng-template datagrid-column-header let-column="column">
+            <button class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
+          </ng-template>
+          <ng-template datagrid-cell let-row="row" let-column="column">
+            <button (click)="rowBtn(row)">显示ID</button>
+          </ng-template>
+        </datagrid-column>
+      </datagrid-column-group>
+      <ng-template datagrid-row-detail let-row="row" let-data="data">
+        {{row.$$index}} - {{data.name}}({{data.userid}})
+      </ng-template>
+    </datagrid>
+    <box-footer>
+      <pager dropdown-dir="up" [total]="200" #pagerForUserDataGrid="pager"></pager>
+    </box-footer>
+    <span>test</span>
+  </box>
+</layout>

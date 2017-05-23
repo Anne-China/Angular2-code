@@ -1,0 +1,73 @@
+@import '../../../styles/variables';
+:host {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+box {
+  flex-grow: 1;
+  datagrid {
+    margin: -1px;
+    flex-grow: 1;
+  }
+  pager {
+    float: right;
+  }
+  box-toolbar {
+    form {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      &>input,
+      &>dropdown,
+      &>md-input-container,
+      &>button {
+        margin-right: 10px;
+      }
+      &>:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+button {
+  i.fa-toggle-right {
+    animation: rotate-90-0 0.2s;
+    &.expanded {
+      transform: rotate(90deg);
+      animation: rotate-0-90 0.2s;
+    }
+  }
+}
+
+.detail {
+  display: flex;
+  flex-flow: row nowrap;
+  &>div {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+    &>div {
+      line-height: 35px;
+      flex-flow: row nowrap;
+      &>label {
+        display: inline-block;
+        padding: 0 5px 0 10px;
+        margin: 0 5px 1px 0;
+      }
+      &:last-child {
+        &>label {
+          margin-bottom: 0;
+        }
+      }
+    }
+    &:last-child {
+      flex-grow: 0;
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

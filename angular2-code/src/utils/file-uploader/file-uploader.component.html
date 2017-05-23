@@ -1,0 +1,38 @@
+<div>
+    <div [style.width.px]="selectZoneWidth" #selectZone>
+        <div *ngIf="canDrop" ng2FileDrop [class.drop-over]="isDropZoneOver" (fileOver)="fileDropOver($event)" [uploader]="uploader"
+            md-ripple class="drop-zone">
+            {{dropZoneText}}
+        </div>
+        <div *ngIf="canSelect" class="btn-zone">
+            <label style="display: block">
+                <a md-button>{{buttonText}}</a>
+                <input *ngIf="queueLimit==1" [attr.name]="name+'Selector'" ng2FileSelect type="file" [uploader]="uploader">
+                <input *ngIf="queueLimit>1" [attr.name]="name+'Selector'" ng2FileSelect multiple type="file" [uploader]="uploader">
+            </label>
+        </div>
+    </div>
+    <div>
+        <ng-content></ng-content>
+    </div>
+</div>
+<div class="file-items" *ngIf="uploader.queue.length>0">
+    <div *ngFor="let item of uploader.queue">
+        <div>
+            <span class="name">
+                {{item?.file?.name}}
+                <span *ngIf="item.isError" class="text-failed">(上传失败)</span>
+                <span *ngIf="item.isCancel" class="text-warnning">(取消上传)</span>
+                <span *ngIf="!item.isError&&item.isSuccess" class="text-success">(上传成功)</span>
+            </span>
+            <span class="size">{{getFileSizeDisplay(item?.file?.size)}}</span>
+            <span class="percent">{{item.progress}} %</span>
+            <span class="btns">
+                <button *ngIf="item.isError||(!item.isReady&&!item.isUploading&&!item.isSuccess)" md-raised-button color="primary" class="btn btn-xs" (click)="item.upload()">开始</button>
+                <button *ngIf="item.isUploading" md-raised-button color="accent" class="btn btn-xs" (click)="item.cancel()">取消</button>
+                <button md-raised-button color="warn" class="btn btn-xs" (click)="removeItem(item)">删除</button>
+            </span>
+        </div>
+        <md-progress-bar [color]="getProgressBarColor(item)" [mode]="determinate" [value]="item.progress"></md-progress-bar>
+    </div>
+</div>

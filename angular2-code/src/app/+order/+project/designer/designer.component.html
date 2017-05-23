@@ -1,0 +1,51 @@
+<h2 md-dialog-title>查询设计师</h2>
+<box-toolbar>
+</box-toolbar>
+<md-dialog-content>
+    <form autocomplete="off" novalidate>
+        <md-input-container>
+            <input mdInput placeholder="设计师工号" name="queryMxcomeId" [(ngModel)]="query.MxcomeId">
+        </md-input-container>
+        <button class="btn" color="primary" md-raised-button (click)="queryData()">
+            <i class="fa fa-search"></i> 查询
+        </button>
+    </form>
+    <datagrid key-props="userid" [pager]="pagerForDesignerDataGrid" #designerDataGrid="dataGrid" [filter]="getFilter" [data-loader]="designerLoader"
+        pagable striped server-filting server-paging server-sorting>
+        <datagrid-column-group>
+            <datagrid-column prop="MxcomeId" name="编号" width="100" align="center"></datagrid-column>
+            <datagrid-column prop="Name" name="姓名" width="100" align="center"></datagrid-column>-->
+            <datagrid-column prop="Sex" name="性别" width="60" align="center"></datagrid-column>
+            <datagrid-column prop="Address" name="地址" header-align="left" fill></datagrid-column>
+            <datagrid-column prop="Score" name="评分" width="60" align="center"></datagrid-column>
+            <datagrid-column prop="OrderNumber" name="接单量" width="60" align="center"></datagrid-column>
+            <ng-template datagrid-row-detail let-value="value" let-data="data">
+                <div class="detail">
+                    <div class="avatar" [class.none]="data.Pictures==null">
+                        <img *ngIf="data.Pictures!=null" [attr.src]="data.Pictures">
+                        <span *ngIf="data.Pictures==null">暂无头像</span>
+                    </div>
+                    <div>
+                        <div><label>编&nbsp;&nbsp;号：</label>{{data.MxcomeId}}</div>
+                        <div><label>姓&nbsp;&nbsp;名：</label>{{data.DesignerName}}</div>
+                        <div><label>昵&nbsp;&nbsp;称：</label>{{data.NickName}}</div>
+                        <div><label>性&nbsp;&nbsp;别：</label>{{data.Sex}}</div>
+                        <div><label>年&nbsp;&nbsp;龄：</label>{{data.Age}}</div>
+                    </div>
+                    <div>
+                        <div><label>评&nbsp;&nbsp;分：</label>{{data.Score}}</div>
+                        <div><label>接&nbsp;&nbsp;量：</label>{{data.OrderNumber}}</div>
+                        <div><label>地&nbsp;&nbsp;址：</label>{{data.Address}}</div>
+                        <div><label>所在单位：</label>{{data.Unit}}</div>
+                        <div><label>代表作品：</label>{{data.Works}}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </datagrid-column-group>
+    </datagrid>
+    <pager dropdown-dir="up" #pagerForDesignerDataGrid="pager"></pager>
+</md-dialog-content>
+<md-dialog-actions>
+    <button class="btn" color="primary" md-raised-button [disabled]="designerDataGrid.selectedItem==null" (click)="save()">确定</button>
+    <button md-raised-button md-dialog-close color="warn" class="btn">取消</button>
+</md-dialog-actions>

@@ -1,0 +1,35 @@
+<box name="供应商列表" sub-name="Material providers">
+    <box-toolbar>
+        <form novalidate autocomplete="off">
+            <md-input-container>
+                <input mdInput name="queryName" [(ngModel)]="query.Name" placeholder="供应商名称">
+            </md-input-container>
+            <button class="btn" md-raised-button color="primary" (click)="queryData()"><i class="fa fa-search"></i> 查询</button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="ID" #providerDataGrid="dataGrid" [pager]="pagerForDataGrid" [data-loader]="providersLoader" [filter]="getFilter"
+        pagable striped server-sorting server-paging server-filting>
+        <datagrid-column-group>
+            <datagrid-column name="供应商名称" prop="Name" width="250" header-align="left"></datagrid-column>
+            <datagrid-column name="联系电话" prop="Phone" align="center"></datagrid-column>
+            <datagrid-column name="供应商级别" prop="Level" width="90" align="center"></datagrid-column>
+            <datagrid-column name="地址" prop="Address" header-align="left" fill></datagrid-column>
+            <datagrid-column name="操作" freeze="right" width="165" align="right" header-align="right">
+                <ng-template datagrid-column-header let-column="column">
+                    <button class="btn btn-xs" md-raised-button color="primary" (click)="addProvider()"><i class="fa fa-plus"></i> 新增供应商</button>
+                </ng-template>
+                <ng-template datagrid-cell let-row="row">
+                    <button class="btn btn-xs" md-raised-button color="primary" (click)="editProvider(row.data)">
+                        <i class="fa fa-pencil"></i> 编辑
+                    </button>
+                    <button class="btn btn-xs" md-raised-button color="warn" (click)="delProvider(row.data)">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </ng-template>
+            </datagrid-column>
+        </datagrid-column-group>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForDataGrid="pager"></pager>
+    </box-footer>
+</box>

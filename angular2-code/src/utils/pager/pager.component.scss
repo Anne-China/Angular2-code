@@ -1,0 +1,83 @@
+@import '../../styles/variables';
+@mixin layout {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+@mixin icon-btn {
+    height: 36px;
+    width: 36px;
+    text-align: center;
+    background-color: map-get($bg-color, input);
+    border: 1px solid map-get($border-color, common);
+    line-height: 34px;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+:host {
+    @include layout;
+    user-select: none;
+    form {
+        @include layout;
+        .pager-detail,
+        .pager-btns {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+        }
+        .pager-detail {
+            dropdown {
+                margin: 0 10px;
+            }
+            input{
+                width: 30px;
+            }
+        }
+        .pager-btns {
+            margin: 0 30px;
+            .icon-btn {
+                @include icon-btn;
+                &:hover {
+                    background-color: map-get($bg-color, hover);
+                }
+                &.prev,
+                &.first {
+                    margin-right: 10px;
+                }
+                &.next,
+                &.last {
+                    margin-left: 10px;
+                }
+                &.disabled,
+                &.disabled:hover {
+                    color: map-get($font-color, disabled);
+                    cursor: unset;
+                    background-color: map-get($bg-color, input);
+                }
+            }
+            .number-btn {
+                line-height: 30px;
+                text-align: center;
+                cursor: pointer;
+                padding: 0 10px;
+                &.active,
+                &:hover {
+                    color: map-get($font-color, primary);
+                }
+            }
+        }
+        .refresh-btn {
+            @include icon-btn;
+            margin-left: 30px;
+            &:hover {
+                background-color: map-get($bg-color, hover);
+            }
+        }
+    }
+}

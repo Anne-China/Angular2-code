@@ -1,0 +1,5 @@
+<div class="tree-node" *ngIf="!rootNode?.$$dataLoaded"><i class="fa fa-circle-o-notch fa-spin"></i> {{loadingText}}</div>
+<ng-template ngFor let-child [ngForOf]="rootNode?.$$children">
+    <ng-template [ngTemplateOutlet]="nodeTemplate" [ngTemplateOutletContext]="{ node: child }">
+    </ng-template>
+</ng-template>

@@ -1,0 +1,75 @@
+<box name="工程列表" sub-name="Project List">
+    <box-toolbar>
+        <form autocomplete="off" novalidate>
+            <md-input-container>
+                <input mdInput placeholder="发布人姓名" name="queryPusherName" [(ngModel)]="query.Publisher">
+            </md-input-container>
+            <md-input-container>
+                <input mdInput placeholder="联系人电话" name="queryPhone" [(ngModel)]="query.ContactPhone">
+            </md-input-container>
+            <button class="btn" color="primary" md-raised-button (click)="queryData()">
+                <i class="fa fa-search"></i> 查询
+            </button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="userid" #projectDataGrid="dataGrid" [pager]="pagerForProjectDataGrid" [data-loader]="projectLoader"
+        [filter]="getFilter" pagable striped server-filting server-sorting server-paging>
+        <datagrid-column-group>
+
+            <datagrid-column prop="Publisher" name="发布人" align="center" width="100"></datagrid-column>
+            <datagrid-column prop="ContactGender" name="性别" align="center" width="60"></datagrid-column>
+            <datagrid-column prop="Address.Province" name="省" align="center" width="100"></datagrid-column>
+            <datagrid-column prop="Address.City" name="市" align="center" width="100"></datagrid-column>
+            <datagrid-column prop="Address.District" name="县/区" align="center" width="100"></datagrid-column>
+            <datagrid-column prop="Address.Street" name="街道" align="center" width="130"></datagrid-column>
+            <datagrid-column prop="PublishTime" name="发布时间" align="center" fill></datagrid-column>
+            <datagrid-column prop="Type" name="工程类型" align="center" width="120">
+                <ng-template datagrid-cell let-data="data" let-value="value">
+                    <span class="text-success" [class.text-note]="data.TypeID==10" [class.text-primary]="data.TypeID==1" [class.text-success]="data.TypeID==2"
+                        [class.text-failed]="data.TypeID==3">{{value}}</span>
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column prop="ID" name="ID" align="center" width="280" ></datagrid-column>
+            <datagrid-column name="操作" width="120" freeze="right" align="center">
+                <ng-template datagrid-cell let-row="row">
+                    <button class="btn btn-xs" color="primary" md-raised-button (click)="row.$$expanded=!row.$$expanded">
+                        <i class="fa fa-toggle-right" [class.expand]="row.$$expanded"></i> {{!row.$$expanded?'展开':'收起'}}详情
+                    </button>
+                </ng-template>
+            </datagrid-column>
+        </datagrid-column-group>
+        <ng-template datagrid-row-detail let-data="data" let-value="value">
+            <div class="detail">
+                <div>
+                    <div><label>联&nbsp;系&nbsp;人&nbsp;：</label>{{data.ContactName}}</div>
+                    <div><label>联系电话：</label>{{data.ContactPhone}}</div>
+                </div>
+                <div>
+                    <div><label>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</label>{{data.Address.Area}}{{data.Address.Detail}}</div>
+                    <div><label>房屋信息：</label><span *ngIf="data.HouseInfo.IndoorArea>0">室内面积: {{data.HouseInfo.IndoorArea}}m<sup>2</sup>，</span><span *ngIf="data.HouseInfo.OutdoorArea>0">室外面积: {{data.HouseInfo.OutdoorArea}}m<sup>2</sup>，</span>{{data.HouseInfo.Detail}}</div>
+                    <div *ngIf="data.DesignerName"><label>设计师：</label>{{data.DesignerName}}</div>
+                </div>
+                <div>
+                    <div *ngIf="data.DesignerName">
+                        <button class="btn btn-xs" color="primary" md-raised-button (click)="designerDetail(data)">
+                            <i class="fa fa-user-o"></i>设计师详情
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-xs" color="primary" md-raised-button (click)="openDesigner(data)">
+                            <i class="fa fa-user-circle-o"></i> {{data.DesignerName?'更换设计师':'指派设计师'}}
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-xs" color="primary" md-raised-button [routerLink]="['./',data.ID]">
+                            <i class="fa fa-info-circle"></i>工程详情
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForProjectDataGrid="pager"></pager>
+    </box-footer>
+</box>

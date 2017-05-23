@@ -1,0 +1,33 @@
+@import '../../../styles/variables';
+:host {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+box {
+  flex-grow: 1;
+  datagrid {
+    margin: -1px;
+    flex-grow: 1;
+  }
+  pager {
+    float: right;
+  }
+  box-toolbar {
+    form {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      &>input,
+      &>dropdown,
+      &>md-input-container,
+      &>button {
+        margin-right: 10px;
+      }
+      &>:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

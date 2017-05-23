@@ -1,0 +1,107 @@
+<box name="注册用户列表" sub-name="Construction users">
+    <box-toolbar>
+        <form novalidate autocomplete="off">
+            <md-input-container>
+                <input mdInput name="queryName" [(ngModel)]="query.name" placeholder="姓名">
+            </md-input-container>
+            <md-input-container>
+                <input mdInput name="queryPhone" [(ngModel)]="query.phone" placeholder="手机">
+            </md-input-container>
+            <dropdown placeholder="注册类型" name="queryUserType" [(ngModel)]="query.type" [options]="dicts.Type" width="120" can-clear></dropdown>
+            <dropdown placeholder="认证状态" name="queryCeStatus" [(ngModel)]="query.ceStatus" [options]="dicts.Status.Certification" width="120"
+                can-clear></dropdown>
+            <dropdown placeholder="培训状态" name="queryTrStatus" [(ngModel)]="query.trStatus" [options]="dicts.Status.Training" width="120"
+                can-clear></dropdown>
+            <button class="btn" md-raised-button color="primary" (click)="queryData()"><i class="fa fa-search"></i> 查询</button>
+        </form>
+    </box-toolbar>
+    <datagrid key-props="ID" #userDataGrid="dataGrid" [pager]="pagerForUserDataGrid" [data-loader]="usersLoader" [filter]="getFilter"
+        pagable striped server-sorting server-paging server-filting (rowExStatus)="onRowExpandStatusChanged($event)">
+        <datagrid-column-group>
+            <datagrid-column name="昵称" prop="Nickname" freeze="left" width="100" align="center"></datagrid-column>
+            <datagrid-column name="姓名" prop="Name" freeze="left" width="100" align="center"></datagrid-column>
+            <datagrid-column name="手机" prop="Phone" align="center"></datagrid-column>
+            <datagrid-column name="头像" prop="Avatar" align="center" width="60">
+                <ng-template datagrid-cell let-value="value">
+                    <img class="avatar" *ngIf="value!=null" [attr.src]="value" />
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column name="认证状态" prop="CertStatus" align="center" width="80">
+                <ng-template datagrid-cell let-value="value" let-data="data">
+                    <span class="text-success" [class.text-note]="data.CertStatusID==0" [class.text-primary]="data.CertStatusID==1" [class.text-failed]="data.CertStatusID==4"
+                        [class.text-success]="data.CertStatusID==5">{{value}}</span>
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column name="培训状态" prop="TrainingStatus" align="center" width="80">
+                <ng-template datagrid-cell let-value="value" let-data="data">
+                    <span class="text-success" [class.text-note]="data.TrainingStatusID==0" [class.text-failed]="data.TrainingStatusID==4" [class.text-success]="data.TrainingStatusID==5">{{value}}</span>
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column name="注册类型" prop="Type" align="center" width="80"></datagrid-column>
+            <datagrid-column name="注册时间" prop="CreateTime" align="center" fill>
+                <ng-template datagrid-cell let-value="value">
+                    {{value | date:'y-MM-dd HH:mm:ss'}}
+                </ng-template>
+            </datagrid-column>
+            <datagrid-column name="认证资料" freeze="right" width="120" align="center">
+                <ng-template datagrid-cell let-row="row">
+                    <button class="btn btn-xs" md-raised-button color="primary" (click)="row.$$expanded=!row.$$expanded">
+                        <i class="fa fa-toggle-right" [class.expanded]="row.$$expanded"></i>
+                        {{!row.$$expanded?'展开':'收起'}}详情
+                    </button>
+                </ng-template>
+            </datagrid-column>
+        </datagrid-column-group>
+        <ng-template datagrid-row-detail let-row="row" let-data="data">
+            <div class="detail">
+                <div class="info">
+                    <div class="avatar" [class.none]="data.Avatar==null">
+                        <img *ngIf="data.Avatar!=null" [attr.src]="data.Avatar">
+                        <span *ngIf="data.Avatar==null">无头像</span>
+                    </div>
+                    <div>
+                        <div><label>姓&nbsp;&nbsp;名：</label>{{data.CertInfo?.Name}}</div>
+                        <div><label>性&nbsp;&nbsp;别：</label>{{data.CertInfo?.Sex}}</div>
+                        <div><label>工作年限：</label>{{data.CertInfo?.WorkYears}} 年</div>
+                        <div><label>所在城市：</label>{{data.CertInfo?.Location}}</div>
+                    </div>
+                    <div>
+                        <div><label>手&nbsp;&nbsp;机：</label>{{data.Phone}}</div>
+                        <div><label>备用手机：</label>{{data.CertInfo?.SparePhone}}</div>
+                        <div><label>注册时间：</label>{{data.CreateTime | date:'y-MM-dd HH:mm:ss'}}</div>
+                        <div><label>注册类型：</label>{{data.CertInfo?.Type}}</div>
+                    </div>
+                    <div>
+                        <div><label>认证状态：</label><span [class.text-primary]="data.CertStatusID==1" [class.text-failed]="data.CertStatusID==4"
+                                [class.text-success]="data.CertStatusID==5">{{data.CertStatus}}</span></div>
+                        <div><label>培训状态：</label><span [class.text-note]="data.TrainingStatusID==0" [class.text-failed]="data.TrainingStatusID==4"
+                                [class.text-success]="data.TrainingStatusID==5">{{data.TrainingStatus}}</span></div>
+                        <div><label>身份证号：</label>{{data.CertInfo?.CardID}}</div>
+                        <div *ngIf="data.CertInfo?.TypeID==1">
+                            <label>工作技能：</label>
+                            <span class="chip mat-elevation-z1" *ngFor="let skill of data.CertInfo?.Skills">{{skill}}</span>
+                        </div>
+                        <div *ngIf="data.CertInfo?.TypeID==2">
+                            <label>设计风格：</label>
+                            <span class="chip mat-elevation-z1" *ngFor="let style of data.CertInfo?.Styles">{{style}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ctrl">
+                    <form novalidate autocomplete="off" (submit)="notSubmit($event)">
+                        <textarea class="form-ctrl" name="feedback" [(ngModel)]="feedbacks[data.ID]" placeholder="如果不通过，请填写不通过原因。"></textarea>
+                        <div>
+                            <div class="btns">
+                                <button type="button" class="btn" md-raised-button color="primary" (click)="certPass(data)">认证通过</button>
+                                <button type="button" class="btn" md-raised-button color="accent" (click)="certFailed(data)">认证不通过</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-template>
+    </datagrid>
+    <box-footer>
+        <pager dropdown-dir="up" #pagerForUserDataGrid="pager"></pager>
+    </box-footer>
+</box>

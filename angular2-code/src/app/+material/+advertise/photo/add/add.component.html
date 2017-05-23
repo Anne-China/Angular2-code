@@ -1,0 +1,72 @@
+<h1 md-dialog-title>新增广告</h1>
+<md-dialog-content>
+    <form autocomplete="off" novalidate class="editor form-inline" input-width="300" #addAdvertiseForm="ngForm">
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="排序值" name="Number" required [(ngModel)]="photo.Number" #number="ngModel" #Number pattern="^(0|[1-9]\d*)$" maxlength="3">
+            </md-input-container>
+            <validation [for]="number">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写排序值，数字越小，排序越前</message>
+                <message validator="required">请填写排序值，数字越小，排序越前</message>
+                <message validator="pattern">请输入数字，且不能小于0</message>
+                <message validator="maxlength">排序值不能超过3位数字</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <md-input-container>
+                <input mdInput placeholder="商家名称" name="Name" required [(ngModel)]="photo.Name" #name="ngModel" #Name>
+            </md-input-container>
+            <validation [for]="name">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写商家名称</message>
+                <message validator="required">请填写商家名称</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <autocomplete name="BrandId" placeholder="所属品牌" [(ngModel)]="photo.BrandId" display-prop="Name" value-prop="ID" [data-loader]="brandsLoader" #brandId="ngModel"></autocomplete>
+            <validation [for]="brandId">
+                <message valid *ngIf="photo.BrandId!=null"><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择所属品牌</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <autocomplete name="CategoriesId" placeholder="品种分类" display-prop="Name" value-prop="ID" [data-loader]="queryCategories" #categoriesId="ngModel" [(ngModel)]="photo.categoriesId"></autocomplete>
+            <validation>
+                <message pristine valid>请选择品种分类</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <autocomplete name="ProductId" placeholder="产品编号" display-prop="Name" value-prop="ID" [data-loader]="queryProductId" #productId="ngModel" [(ngModel)]="photo.ProductId"></autocomplete>
+            <validation [for]="productId">
+                <message valid><i class="fa fa-check"></i></message>
+                <message pristine valid>请填写产品id（可选）</message>
+            </validation>
+        </div>
+        <div class="form-group">
+            <autocomplete name="Location" placeholder="发布位置" [(ngModel)]="advertise" display-prop="Location" [data-loader]="advertiseLocationLoader"
+                         #Location="ngModel" (change)="selectLocation($event)"></autocomplete>
+            <validation [for]="Location">
+                <message valid *ngIf="photo.Location"><i class="fa fa-check"></i></message>
+                <message pristine valid>请选择发布位置(多选)。</message>
+            </validation>
+        </div>
+        <div class="form-group items" *ngIf="adv.length>0">
+            <span class="chip mat-elevation-z1" *ngFor="let item of adv; let i=index">
+                {{item.Location}}
+                <i class="fa fa-remove remove mat-elevation-z1" (click)="removeLocation(i)"></i>
+            </span>
+            <span class="spacer"></span>
+        </div>
+        <div class="form-group">
+            <file-uploader name="Pictures" allowed-exts="jpg,jpeg,bmp,png,gif" [url]="uploadUrl" [max-file-size]="1024*1024" [additional-params]="uploadAdditonalParameter" item-alias="web_file" auto-upload #uploader="fileUploader" [queue-limit]="3">
+                <span class="text-note" *ngIf="photo.Pictures==null">请上传广告图片(可选)。</span>
+                <span class="text-success" *ngIf="photo.Pictures!=null"><i class="fa fa-check"></i> 请上传广告图片(可选)。</span>
+            </file-uploader>
+        </div>
+    </form>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button class="btn" color="primary" (click)="save()">确定</button>
+    <button class="btn" md-raised-button md-dialog-close>取消</button>
+</md-dialog-actions>
